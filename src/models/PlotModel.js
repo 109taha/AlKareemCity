@@ -13,7 +13,7 @@ const PlotSchema = mongoose.Schema({
     enum: ["commercial", "residential"],
   },
   sqYard: {
-    type: String,
+    type: Number,
   },
   details: {
     type: String,

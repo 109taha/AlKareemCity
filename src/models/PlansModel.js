@@ -5,33 +5,26 @@ const PlansSchema = mongoose.Schema(
     plotId: {
       type: mongoose.Schema.Types.ObjectId,
       reff: "Plot",
-      require: true,
     },
-    block: {
+    blockId: {
       type: mongoose.Schema.Types.ObjectId,
       reff: "Block",
-      require: true,
     },
     bookingAmount: {
       type: Number,
-      require: true,
     },
     instalmentAmount: {
       type: Number,
-      require: true,
     },
     investmentMonth: {
       type: Number,
-      require: true,
     },
     extraPaymentTerm: {
       type: Number,
-      require: true,
       enum: [6, 12, 18, 36],
     },
     possessionAmount: {
       type: Number,
-      require: true,
     },
   },
   { timestamps: true }
