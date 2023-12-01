@@ -1,4 +1,7 @@
 import joi from "joi";
+import JoiObjectId from "joi-objectid";
+
+const myJoiObjectId = JoiObjectId(joi);
 
 // USER
 const userSchema = joi
@@ -54,7 +57,7 @@ const blockJoi = (req, res, next) => {
 // PLOT
 const PlotSchema = joi.object({
   plotNumber: joi.string().required(),
-  BlockNumber: joi.string().hex().length(24),
+  BlockNumber: myJoiObjectId().required(),
   type: joi.string().required().valid("commercial", "residential"),
   sqYard: joi.number().required(),
   details: joi.string().required(),
@@ -72,8 +75,8 @@ const plotJoi = (req, res, next) => {
 
 // PLANS
 const PlansSchema = joi.object({
-  plotId: joi.string().hex().length(24),
-  blockId: joi.string().hex().length(24),
+  plotId: myJoiObjectId().required(),
+  blockId: myJoiObjectId().required(),
   bookingAmount: joi.number().required(),
   instalmentAmount: joi.number().required(),
   investmentMonth: joi.number().required(),
