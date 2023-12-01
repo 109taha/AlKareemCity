@@ -25,12 +25,12 @@ const PlansSchema = mongoose.Schema(
       require: true,
     },
     extraPaymentTerm: {
-      type: Numeber,
+      type: Number,
       require: true,
       enum: [6, 12, 18, 36],
     },
     possessionAmount: {
-      type: Numebr,
+      type: Number,
       require: true,
     },
   },

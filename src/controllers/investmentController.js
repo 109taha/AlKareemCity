@@ -1,6 +1,6 @@
-import BlockModel from "../models/BlocksModel";
-import PlotModel from "../models/PlotModel";
-import PlanModel from "../models/PlansModel";
+import Block from "../models/BlocksModel.js";
+import Plot from "../models/PlotModel.js";
+import Plan from "../models/PlansModel.js";
 
 // Block
 const createingBlock = async (req, res) => {
