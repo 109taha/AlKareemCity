@@ -30,3 +30,7 @@ app.get("/", (req, res) => {
 import user from "./routes/UserRoutes.js";
 
 app.use("/user", user);
+
+import investment from "./routes/investmentRoutes.js";
+
+app.use("/", investment);

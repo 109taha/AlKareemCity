@@ -3,23 +3,23 @@ import mongoose from "mongoose";
 const PlotSchema = mongoose.Schema({
   plotNumber: {
     type: String,
-    require: true,
+  },
+  BlockNumber: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Block",
   },
   type: {
     type: String,
     enum: ["commercial", "residential"],
-    require: true,
   },
   sqYard: {
     type: String,
-    require: true,
   },
   details: {
     type: String,
   },
   price: {
     type: Number,
-    require: true,
   },
 });
 
