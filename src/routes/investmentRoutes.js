@@ -21,23 +21,23 @@ import {
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);
-router.post("/updateBlock", updateBlock);
+router.post("/updateBlock/:blockId", updateBlock);
 router.get("/getAllBlock", getAllBlock);
-router.get("/getOneBlock", getOneBlock);
-router.delete("/deleteBlock", deleteBlock);
+router.get("/getOneBlock/:blockId", getOneBlock);
+router.delete("/deleteBlock/:blockId", deleteBlock);
 
 // plot
 router.post("/createingPlot", plotJoi, createingPlot);
-router.post("/updatePlot", updatePlot);
+router.post("/updatePlot/:plotId", updatePlot);
 router.get("/getAllPlot", getAllPlot);
-router.get("/getOnePlot", getOnePlot);
-router.delete("/deletePlot", deletePlot);
+router.get("/getOnePlot/:plotId", getOnePlot);
+router.delete("/deletePlot/:plotId", deletePlot);
 
 // plans
 router.post("/createingPlan", planJoi, createingPlan);
-router.post("/updatePlan", updatePlan);
+router.post("/updatePlan/:planId", updatePlan);
 router.get("/getAllPlan", getAllPlan);
-router.get("/getOnePlan", getOnePlan);
-router.delete("/deletePlan", deletePlan);
+router.get("/getOnePlan/:planId", getOnePlan);
+router.delete("/deletePlan/:planId", deletePlan);
 
 export default router;

@@ -60,7 +60,8 @@ const PlotSchema = joi.object({
   BlockNumber: myJoiObjectId().required(),
   type: joi.string().required().valid("commercial", "residential"),
   sqYard: joi.number().required(),
-  details: joi.string().required(),
+  feature: joi.string(),
+  details: joi.string(),
   price: joi.number().required(),
 });
 
@@ -75,7 +76,7 @@ const plotJoi = (req, res, next) => {
 
 // PLANS
 const PlansSchema = joi.object({
-  plotId: myJoiObjectId().required(),
+  sqYard: joi.number().required(),
   blockId: myJoiObjectId().required(),
   bookingAmount: joi.number().required(),
   instalmentAmount: joi.number().required(),

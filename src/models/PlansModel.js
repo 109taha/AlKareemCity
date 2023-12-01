@@ -2,13 +2,12 @@ import mongoose from "mongoose";
 
 const PlansSchema = mongoose.Schema(
   {
-    plotId: {
-      type: mongoose.Schema.Types.ObjectId,
-      reff: "Plot",
+    sqYard: {
+      type: Number,
     },
     blockId: {
       type: mongoose.Schema.Types.ObjectId,
-      reff: "Block",
+      ref: "Block",
     },
     bookingAmount: {
       type: Number,
