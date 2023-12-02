@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { blockJoi, planJoi, plotJoi } from "../utils/Schemas.js";
+import { blockJoi, planJoi, plotJoi, plotJoiArray } from "../utils/Schemas.js";
 import {
   createingBlock,
   updateBlock,
@@ -17,6 +17,7 @@ import {
   getAllPlan,
   getOnePlan,
   deletePlan,
+  multiplePlot,
 } from "../controllers/investmentController.js";
 
 // block
@@ -28,6 +29,7 @@ router.delete("/deleteBlock/:blockId", deleteBlock);
 
 // plot
 router.post("/createingPlot", plotJoi, createingPlot);
+router.post("/multiplePlot", plotJoiArray, multiplePlot);
 router.post("/updatePlot/:plotId", updatePlot);
 router.get("/getAllPlot", getAllPlot);
 router.get("/getOnePlot/:plotId", getOnePlot);

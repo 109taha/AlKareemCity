@@ -55,6 +55,28 @@ const blockJoi = (req, res, next) => {
 };
 
 // PLOT
+const PlotArraySchema = joi.array().items(
+  joi.object({
+    plotNumber: joi.string().required(),
+    BlockNumber: myJoiObjectId().required(),
+    type: joi.string().required().valid("commercial", "residential"),
+    sqYard: joi.number().required(),
+    feature: joi.string(),
+    details: joi.string(),
+    price: joi.number().required(),
+  })
+);
+
+const plotJoiArray = (req, res, next) => {
+  const { error } = PlotArraySchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    return res.status(400).json({ error });
+  } else {
+    next();
+  }
+};
+
+// PLOT
 const PlotSchema = joi.object({
   plotNumber: joi.string().required(),
   BlockNumber: myJoiObjectId().required(),
@@ -94,4 +116,4 @@ const planJoi = (req, res, next) => {
   }
 };
 
-export { UserJoi, AdminJoi, blockJoi, planJoi, plotJoi };
+export { UserJoi, AdminJoi, blockJoi, planJoi, plotJoi, plotJoiArray };

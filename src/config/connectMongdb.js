@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const DB_URL = process.env.MongodbUrl || "mongodb://127.0.0.1:27017/water";
+const DB_URL = process.env.MongodbUrl || "mongodb://127.0.0.1:27017/Alkareem";
 async function connectToMongoDB() {
   try {
     await mongoose.connect(DB_URL);

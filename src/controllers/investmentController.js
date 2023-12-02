@@ -174,6 +174,21 @@ const createingPlot = async (req, res) => {
   }
 };
 
+const multiplePlot = async (req, res) => {
+  try {
+    const plotData = req.body;
+
+    const newPlot = await PlotModel.create(plotData);
+
+    res.status(200).send({ success: true, data: newPlot });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!", error });
+  }
+};
+
 const updatePlot = async (req, res) => {
   try {
     const { plotNumber, BlockNumber, type, sqYard, details, price } = req.body;
@@ -434,6 +449,7 @@ export {
   getOneBlock,
   deleteBlock,
   createingPlot,
+  multiplePlot,
   updatePlot,
   getAllPlot,
   getOnePlot,

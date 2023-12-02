@@ -26,7 +26,6 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.status(200).send("Real-Estate Server Is Running");
 });
-
 import user from "./routes/UserRoutes.js";
 
 app.use("/user", user);
