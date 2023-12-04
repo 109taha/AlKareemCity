@@ -22,6 +22,9 @@ const PlansSchema = mongoose.Schema(
       type: Number,
       enum: [6, 12, 18, 36],
     },
+    extraPaymentAmount: {
+      type: Number,
+    },
     possessionAmount: {
       type: Number,
     },

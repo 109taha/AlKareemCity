@@ -79,8 +79,8 @@ const loginUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = req.user;
-    const { name, email, password, plotId, planId } = req.body;
+    const userId = req.params.userId;
+    const { name, email, password } = req.body;
     const user = await User.findById(userId);
 
     if (password) {
@@ -93,8 +93,37 @@ const updateUser = async (req, res) => {
 
     user.name = name || user.name;
     user.email = email || user.email;
-    user.planId = planId || user.planId;
+
+    await user.save();
+    const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
+
+    return res.status(200).send({
+      success: true,
+      message: "User Update successfully",
+      Token: token,
+      Data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error" });
+  }
+};
+
+const addPlan = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { plotId, planId, planStartedDate, planEndedDate } = req.body;
+    console.log("planStartedDate===>", planStartedDate);
+    console.log("planEndedDate===>", planEndedDate);
+    const user = await User.findById(userId);
+
     user.plotId = plotId || user.plotId;
+    user.planId = planId || user.planId;
+    user.planStartedDate = planStartedDate || user.planStartedDate;
+    user.planEndedDate = planEndedDate || user.planEndedDate;
+
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
@@ -426,6 +455,7 @@ export {
   registeredUser,
   loginUser,
   updateUser,
+  addPlan,
   allUser,
   deleteUser,
   oneUser,

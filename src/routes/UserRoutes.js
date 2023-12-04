@@ -2,6 +2,7 @@ import {
   registeredUser,
   loginUser,
   updateUser,
+  addPlan,
   allUser,
   deleteUser,
   oneUser,
@@ -22,7 +23,8 @@ const router = express.Router();
 //users
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
-router.put("/update", verifyUser, updateUser);
+router.put("/update/:userId", updateUser);
+router.post("/addPlan/:userId", verifyAdmin, addPlan);
 router.get("/all", allUser);
 router.get("/one/:Id", oneUser);
 router.delete("/delete/:Id", deleteUser);

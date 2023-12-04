@@ -24,6 +24,12 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
     },
+    planStartedDate: {
+      type: Date,
+    },
+    planEndedDate: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
