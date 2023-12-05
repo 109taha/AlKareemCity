@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PlotSchema = mongoose.Schema(
+const PlotSchema = new mongoose.Schema(
   {
     plotNumber: {
       type: String,
@@ -29,6 +29,6 @@ const PlotSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Plot = new mongoose.model("Plot", PlotSchema);
+const Plot = mongoose.model("Plot", PlotSchema);
 
 export default Plot;

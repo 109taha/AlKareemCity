@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const BlockSchema = mongoose.Schema(
+const BlockSchema = new mongoose.Schema(
   {
     blockName: {
       type: String,
@@ -18,6 +18,6 @@ const BlockSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Block = new mongoose.model("Block", BlockSchema);
+const Block = mongoose.model("Block", BlockSchema);
 
 export default Block;

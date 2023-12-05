@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PlansSchema = mongoose.Schema(
+const PlansSchema = new mongoose.Schema(
   {
     sqYard: {
       type: Number,
@@ -32,6 +32,6 @@ const PlansSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const Plan = new mongoose.model("Plan", PlansSchema);
+const Plan = mongoose.model("Plan", PlansSchema);
 
 export default Plan;
