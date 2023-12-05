@@ -31,7 +31,7 @@ const registeredUser = async (req, res) => {
       success: true,
       message: "User Registered Sucessfully",
       Token: token,
-      Data: newUser,
+      data: newUser,
     });
   } catch (error) {
     console.error(error);
@@ -65,11 +65,11 @@ const loginUser = async (req, res) => {
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-    return res.status(200).send({
+    res.status(200).send({
       success: true,
       message: "User login successfully",
       Token: token,
-      Data: user,
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -97,11 +97,11 @@ const updateUser = async (req, res) => {
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-    return res.status(200).send({
+    res.status(200).send({
       success: true,
       message: "User Update successfully",
       Token: token,
-      Data: user,
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -127,11 +127,11 @@ const addPlan = async (req, res) => {
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-    return res.status(200).send({
+    res.status(200).send({
       success: true,
       message: "User Update successfully",
       Token: token,
-      Data: user,
+      data: user,
     });
   } catch (error) {
     console.error(error);
@@ -165,7 +165,7 @@ const allUser = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Following are the all Users",
-      Data: users,
+      data: users,
       page,
       totalPages,
       limit,
@@ -192,7 +192,7 @@ const oneUser = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Following are the Users",
-      Data: users,
+      data: users,
     });
   } catch (error) {
     console.error(error);
@@ -248,7 +248,7 @@ const registeredAdmin = async (req, res) => {
       success: true,
       message: "Admin Registered Sucessfully",
       Token: token,
-      Data: newAdmin,
+      data: newAdmin,
     });
   } catch (error) {
     console.error(error);
@@ -283,11 +283,11 @@ const loginAdmin = async (req, res) => {
 
     const token = JWT.sign({ adminId: admin._id }, process.env.JWT_SEC_Admin);
 
-    return res.status(200).send({
+    res.status(200).send({
       success: true,
       message: "Admin login successfully",
       Token: token,
-      Data: admin,
+      data: admin,
     });
   } catch (error) {
     console.error(error);
@@ -314,11 +314,11 @@ const updateAdmin = async (req, res) => {
 
     const token = JWT.sign({ adminId: admin._id }, process.env.JWT_SEC_Admin);
 
-    return res.status(200).send({
+    res.status(200).send({
       success: true,
       message: "Admin Update successfully",
       Token: token,
-      Data: admin,
+      data: admin,
     });
   } catch (error) {
     console.error(error);
@@ -398,7 +398,7 @@ const allAdmin = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Following are the all Admins",
-      Data: Admins,
+      data: Admins,
       page,
       totalPages,
       limit,
@@ -425,7 +425,7 @@ const oneAdmin = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "Following are the Admins",
-      Data: Admins,
+      data: Admins,
     });
   } catch (error) {
     console.error(error);

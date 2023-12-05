@@ -19,6 +19,7 @@ import {
   deletePlan,
   multiplePlot,
 } from "../controllers/investmentController.js";
+import { allAmount } from "../controllers/flowcontroller.js";
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);
@@ -41,5 +42,8 @@ router.post("/updatePlan/:planId", updatePlan);
 router.get("/getAllPlan", getAllPlan);
 router.get("/getOnePlan/:planId", getOnePlan);
 router.delete("/deletePlan/:planId", deletePlan);
+
+//flow
+router.get("/allAmount/:userId", allAmount);
 
 export default router;
