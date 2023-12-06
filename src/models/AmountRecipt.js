@@ -7,7 +7,7 @@ const PaymentHistorySchema = new mongoose.Schema(
       ref: "User",
       require: true,
     },
-    PlotId: {
+    plotId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plot",
       require: true,
