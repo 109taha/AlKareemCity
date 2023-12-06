@@ -7,16 +7,8 @@ const allAmount = async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    const user = await User.findById(userId).populate("planId plotId");
-
-    const totalAmount = user.plotId.price;
-    const advanceAmount = user.planId.bookingAmount;
-    const monthlyAmount = user.planId.investmentMonth;
-    const Data = {
-      totalAmount,
-      advanceAmount,
-      monthlyAmount,
-    };
+    const user = await User.findById(userId).populate("amount");
+    const Data = user.amount;
 
     res.status(200).send({ success: true, data: Data });
   } catch (error) {
@@ -27,4 +19,23 @@ const allAmount = async (req, res) => {
   }
 };
 
-export { allAmount };
+const paymentAmount = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    console.log(user);
+
+    user.paymentOnThatMonth = true;
+
+    await user.save();
+
+    return res.status(200).send({ success: true, data: user });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!", error });
+  }
+};
+
+export { allAmount, paymentAmount };

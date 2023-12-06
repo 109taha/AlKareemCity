@@ -4,6 +4,9 @@ import cloudinary from "../helper/cloudinary.js";
 import fs from "fs";
 import JWT from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import Plan from "../models/PlansModel.js";
+import Plot from "../models/PlotModel.js";
+import Amount from "../models/AmountModel.js";
 
 const registeredUser = async (req, res) => {
   try {
@@ -124,7 +127,30 @@ const addPlan = async (req, res) => {
     user.planStartedDate = planStartedDate || user.planStartedDate;
     user.planEndedDate = planEndedDate || user.planEndedDate;
 
+    const plan = await Plan.findById(planId);
+
+    const plot = await Plot.findById(plotId);
+
+    const totalAmount = plot.price;
+    const bookingAmount = plan.bookingAmount;
+    const monthlyAmount = plan.investmentMonth;
+    const totalPaidAmount = bookingAmount;
+    const totalRemainingAmount = totalAmount - bookingAmount;
+
+    const amount = new Amount({
+      totalAmount,
+      bookingAmount,
+      monthlyAmount,
+      totalPaidAmount,
+      totalRemainingAmount,
+      userId,
+    });
+
+    await amount.save();
+    console.log(amount);
+    user.amount = amount._id;
     await user.save();
+
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
     res.status(200).send({

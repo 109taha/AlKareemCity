@@ -30,6 +30,14 @@ const userSchema = new mongoose.Schema(
     planEndedDate: {
       type: Date,
     },
+    paymentOnThatMonth: {
+      type: Boolean,
+      default: false,
+    },
+    amount: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Amount",
+    },
   },
   { timestamps: true }
 );
