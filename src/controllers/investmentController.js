@@ -1,7 +1,7 @@
-import BlockModel from "../models/BlocksModel.js";
-import PlotModel from "../models/PlotModel.js";
-import PlanModel from "../models/PlansModel.js";
-import Panelty from "../models/paneltyModel.js";
+const BlockModel = require("../models/BlocksModel.js");
+const PlotModel = require("../models/PlotModel.js");
+const PlanModel = require("../models/PlansModel.js");
+const Panelty = require("../models/paneltyModel.js");
 
 // Block
 const createingBlock = async (req, res) => {
@@ -556,7 +556,7 @@ const allPanelty = async (req, res) => {
   }
 };
 
-export {
+module.exports = {
   createingBlock,
   updateBlock,
   getAllBlock,

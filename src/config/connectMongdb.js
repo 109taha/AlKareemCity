@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const DB_URL = process.env.MongodbUrl || "mongodb://127.0.0.1:27017/Alkareem";
 async function connectToMongoDB() {
@@ -10,4 +10,4 @@ async function connectToMongoDB() {
   }
 }
 
-export default connectToMongoDB;
+module.exports = connectToMongoDB;

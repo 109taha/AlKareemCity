@@ -1,5 +1,5 @@
-import joi from "joi";
-import JoiObjectId from "joi-objectid";
+const joi = require("joi");
+const JoiObjectId = require("joi-objectid");
 
 const myJoiObjectId = JoiObjectId(joi);
 
@@ -116,4 +116,11 @@ const planJoi = (req, res, next) => {
   }
 };
 
-export { UserJoi, AdminJoi, blockJoi, planJoi, plotJoi, plotJoiArray };
+module.exports = {
+  UserJoi,
+  AdminJoi,
+  blockJoi,
+  planJoi,
+  plotJoi,
+  plotJoiArray,
+};

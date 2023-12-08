@@ -1,4 +1,4 @@
-import {
+const {
   registeredUser,
   loginUser,
   updateUser,
@@ -13,18 +13,23 @@ import {
   allAdmin,
   deleteAdmin,
   oneAdmin,
-} from "../controllers/UserController.js";
-import { verifyUser, verifyAdmin } from "../middlewares/middlewares.js";
-import { UserJoi, AdminJoi } from "../utils/Schemas.js";
-import upload from "../helper/multer.js";
-import express from "express";
+} = require("../controllers/UserController.js");
+const { verifyUser, verifyAdmin } = require("../middlewares/middlewares.js");
+const { UserJoi, AdminJoi } = require("../utils/Schemas.js");
+const upload = require("../helper/multer.js");
+const express = require("express");
 const router = express.Router();
 
 //users
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
 router.put("/update/:userId", updateUser);
-router.post("/profilePic", verifyUser, profilePic);
+router.post(
+  "/profilePic",
+  upload.array("attachArtwork", 5),
+  verifyUser,
+  profilePic
+);
 router.post("/addPlan/:userId", verifyAdmin, addPlan);
 router.get("/all", allUser);
 router.get("/one/:Id", oneUser);
@@ -38,4 +43,4 @@ router.get("/allAdmin", allAdmin);
 router.get("/oneAdmin/:Id", oneAdmin);
 router.delete("/deleteAdmin/:Id", deleteAdmin);
 
-export default router;
+module.exports = router;

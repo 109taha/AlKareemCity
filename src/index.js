@@ -1,7 +1,7 @@
-import cors from "cors";
-import express from "express";
-import {} from "dotenv/config";
-// dotEnv.config();
+const cors = require("cors");
+const express = require("express");
+require("dotenv").config();
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(
 );
 
 // connect mongodb
-import connectToMongoDB from "./config/connectMongdb.js";
+const connectToMongoDB = require("./config/connectMongdb.js");
 connectToMongoDB();
 
 // Port
@@ -26,10 +26,10 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.status(200).send("Real-Estate Server Is Running");
 });
-import user from "./routes/UserRoutes.js";
+const user = require("./routes/UserRoutes.js");
 
 app.use("/user", user);
 
-import investment from "./routes/investmentRoutes.js";
+const investment = require("./routes/investmentRoutes.js");
 
 app.use("/", investment);

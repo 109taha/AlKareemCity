@@ -1,4 +1,4 @@
-import JWT from "jsonwebtoken";
+const JWT = require("jsonwebtoken");
 
 const verifyAdmin = async (req, res, next) => {
   try {
@@ -42,4 +42,4 @@ const verifyUser = async (req, res, next) => {
   }
 };
 
-export { verifyAdmin, verifyUser, verifyBroker };
+module.exports = { verifyAdmin, verifyUser, verifyBroker };

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const PlotSchema = new mongoose.Schema(
   {
@@ -31,4 +31,4 @@ const PlotSchema = new mongoose.Schema(
 
 const Plot = mongoose.model("Plot", PlotSchema);
 
-export default Plot;
+module.exports = Plot;

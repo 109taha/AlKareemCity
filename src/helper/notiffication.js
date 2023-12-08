@@ -1,4 +1,4 @@
-import FCM from "fcm-node";
+const FCM = require("fcm-node");
 var serverKey = process.env.SERVERKEY;
 // var fcm = new FCM(serverKey);
 
@@ -23,4 +23,4 @@ const sendNotification = async (title, body, deviceToken, ID) => {
   });
 };
 
-export default sendNotification;
+module.exports = sendNotification;

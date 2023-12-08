@@ -1,5 +1,5 @@
-import path from "path";
-import multer from "multer";
+const path = require("path");
+const multer = require("multer");
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const storage = multer.diskStorage({
@@ -34,4 +34,4 @@ const upload = multer({
   },
 });
 
-export default { upload };
+module.exports = upload;

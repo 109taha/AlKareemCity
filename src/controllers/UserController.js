@@ -1,12 +1,12 @@
-import User from "../models/UsersModels.js";
-import Admin from "../models/AdminModel.js";
-import cloudinary from "../helper/cloudinary.js";
-import fs from "fs";
-import JWT from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import Plan from "../models/PlansModel.js";
-import Plot from "../models/PlotModel.js";
-import Amount from "../models/AmountModel.js";
+const User = require("../models/UsersModels.js");
+const Admin = require("../models/AdminModel.js");
+const cloudinary = require("../helper/cloudinary.js");
+const fs = require("fs");
+const JWT = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const Plan = require("../models/PlansModel.js");
+const Plot = require("../models/PlotModel.js");
+const Amount = require("../models/AmountModel.js");
 
 const registeredUser = async (req, res) => {
   try {
@@ -229,7 +229,7 @@ const oneUser = async (req, res) => {
 const profilePic = async (req, res) => {
   const files = req.files;
   const attachArtwork = [];
-
+  console.log(files);
   try {
     if (files && files.length > 0) {
       for (const file of files) {
@@ -473,7 +473,7 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-export {
+module.exports = {
   registeredUser,
   loginUser,
   updateUser,

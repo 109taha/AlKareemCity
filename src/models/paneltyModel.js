@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const PaneltySchema = new mongoose.Schema(
   {
@@ -20,4 +20,4 @@ const PaneltySchema = new mongoose.Schema(
 );
 const Panelty = mongoose.model("Panelty", PaneltySchema);
 
-export default Panelty;
+module.exports = Panelty;

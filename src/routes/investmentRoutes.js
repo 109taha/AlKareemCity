@@ -1,7 +1,12 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
-import { blockJoi, planJoi, plotJoi, plotJoiArray } from "../utils/Schemas.js";
-import {
+const {
+  blockJoi,
+  planJoi,
+  plotJoi,
+  plotJoiArray,
+} = require("../utils/Schemas.js");
+const {
   createingBlock,
   updateBlock,
   getAllBlock,
@@ -23,8 +28,11 @@ import {
   userPanelty,
   onePanelty,
   allPanelty,
-} from "../controllers/investmentController.js";
-import { allAmount, paymentAmount } from "../controllers/flowController.js";
+} = require("../controllers/investmentController.js");
+const {
+  allAmount,
+  paymentAmount,
+} = require("../controllers/flowController.js");
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);
@@ -59,4 +67,4 @@ router.get("/allPanelty", allPanelty);
 router.get("/allAmount/:userId", allAmount);
 router.post("/paymentAmount/:userId", paymentAmount);
 
-export default router;
+module.exports = router;
