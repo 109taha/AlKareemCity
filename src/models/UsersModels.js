@@ -41,6 +41,9 @@ const userSchema = new mongoose.Schema(
     deviceToken: {
       type: String,
     },
+    profile_pic: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

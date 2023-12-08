@@ -92,11 +92,11 @@ const updateUser = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
       user.hash_password = hashedPassword || user.hash_password;
-      user.deviceToken = deviceToken || user.deviceToken;
     }
 
     user.name = name || user.name;
     user.email = email || user.email;
+    user.deviceToken = deviceToken || user.deviceToken;
 
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
@@ -226,6 +226,52 @@ const oneUser = async (req, res) => {
   }
 };
 
+const profilePic = async (req, res) => {
+  const files = req.files;
+  const attachArtwork = [];
+
+  try {
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const { path } = file;
+        try {
+          const uploader = await cloudinary.uploader.upload(path, {
+            folder: "blogging",
+          });
+          attachArtwork.push({ url: uploader.secure_url });
+          fs.unlinkSync(path);
+        } catch (err) {
+          if (attachArtwork.length > 0) {
+            const imgs = attachArtwork.map((obj) => obj.public_id);
+            cloudinary.api.delete_resources(imgs);
+          }
+          console.log(err);
+        }
+      }
+    }
+    const users = req.user;
+    const user = await User.findById(users);
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User not found" });
+    }
+    user.profile_pic =
+      attachArtwork.length > 0 ? attachArtwork[0].url : user.profile_pic;
+
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Profile pic added successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error: " + error.message);
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const userId = req.params.Id;
@@ -256,11 +302,11 @@ const registeredAdmin = async (req, res) => {
     admin.password = hashedPassword;
 
     const newAdmin = await Admin({
-      first_name: admin.first_name,
-      last_name: admin.last_name,
+      name: admin.name,
       email: admin.email,
       hash_password: admin.password,
     });
+
     await newAdmin.save();
 
     const token = JWT.sign(
@@ -322,7 +368,7 @@ const loginAdmin = async (req, res) => {
 const updateAdmin = async (req, res) => {
   try {
     const AdminId = req.user;
-    const { first_name, last_name, email, password, phone } = req.body;
+    const { name, email, password } = req.body;
     const admin = await Admin.findById(AdminId);
     if (password) {
       const salt = await bcrypt.genSalt(10);
@@ -331,10 +377,8 @@ const updateAdmin = async (req, res) => {
       admin.hash_password = hashedPassword || admin.hash_password;
     }
 
-    admin.first_name = first_name || admin.first_name;
-    admin.last_name = last_name || admin.last_name;
+    admin.name = name || admin.name;
     admin.email = email || admin.email;
-    admin.phone = phone || admin.phone;
 
     const token = JWT.sign({ adminId: admin._id }, process.env.JWT_SEC_Admin);
 
@@ -349,52 +393,6 @@ const updateAdmin = async (req, res) => {
     return res
       .status(500)
       .send({ success: false, message: "Internal server error" });
-  }
-};
-
-const profilePicAdmin = async (req, res) => {
-  const files = req.files;
-  const attachArtwork = [];
-
-  try {
-    if (files && files.length > 0) {
-      for (const file of files) {
-        const { path } = file;
-        try {
-          const uploader = await cloudinary.uploader.upload(path, {
-            folder: "blogging",
-          });
-          attachArtwork.push({ url: uploader.secure_url });
-          fs.unlinkSync(path);
-        } catch (err) {
-          if (attachArtwork.length > 0) {
-            const imgs = attachArtwork.map((obj) => obj.public_id);
-            cloudinary.api.delete_resources(imgs);
-          }
-          console.log(err);
-        }
-      }
-    }
-    const users = req.user;
-    const user = await Admin.findById(users);
-    if (!user) {
-      return res
-        .status(404)
-        .send({ success: false, message: "User not found" });
-    }
-    user.profile_pic =
-      attachArtwork.length > 0 ? attachArtwork[0].url : user.profile_pic;
-
-    await user.save();
-
-    res.status(200).send({
-      success: true,
-      message: "Profile pic added successfully",
-      data: user,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error: " + error.message);
   }
 };
 
@@ -486,7 +484,7 @@ export {
   registeredAdmin,
   loginAdmin,
   updateAdmin,
-  profilePicAdmin,
+  profilePic,
   allAdmin,
   deleteAdmin,
   oneAdmin,

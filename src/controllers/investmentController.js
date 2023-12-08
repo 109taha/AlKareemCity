@@ -1,6 +1,7 @@
 import BlockModel from "../models/BlocksModel.js";
 import PlotModel from "../models/PlotModel.js";
 import PlanModel from "../models/PlansModel.js";
+import Panelty from "../models/paneltyModel.js";
 
 // Block
 const createingBlock = async (req, res) => {
@@ -442,6 +443,119 @@ const deletePlan = async (req, res) => {
   }
 };
 
+//Panelty
+const createPanelty = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { amount, reason } = req.body;
+    if (!amount || !reason) {
+      return res.status(404).send({
+        success: false,
+        message: "You have to provide amount and reason to add panelty ",
+      });
+    }
+    const newPanelty = new Panelty({
+      amount,
+      reason,
+      userId,
+    });
+    await newPanelty.save();
+
+    res.status(200).send({
+      success: true,
+      data: newPanelty,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error", error });
+  }
+};
+
+const updatePanelty = async (req, res) => {
+  try {
+    const paneltyId = req.params.paneltyId;
+    const panelty = await Panelty(paneltyId);
+    const { userId, amount, reason } = req.body;
+
+    panelty.userId = userId || panelty.userId;
+    panelty.amount = amount || panelty.amount;
+    panelty.reason = reason || panelty.reason;
+
+    await panelty.save();
+
+    res.status(200).send({
+      success: true,
+      data: panelty,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error", error });
+  }
+};
+
+const userPanelty = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const panelty = await Panelty.find({ userId });
+    if (panelty.length <= 0) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No panelty found on that user" });
+    }
+    res.status(200).send({ success: true, data: panelty });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error ",
+      error,
+    });
+  }
+};
+
+const onePanelty = async (req, res) => {
+  try {
+    const paneltyId = req.params.paneltyId;
+    const panelty = await Panelty.findById(paneltyId);
+    if (panelty.length <= 0) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No panelty found on that Id" });
+    }
+    res.status(200).send({ success: true, data: panelty });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error ",
+      error,
+    });
+  }
+};
+
+const allPanelty = async (req, res) => {
+  try {
+    const panelty = await Panelty.find();
+    if (panelty.length <= 0) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No panelty found " });
+    }
+    res.status(200).send({ success: true, data: panelty });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error ",
+      error,
+    });
+  }
+};
+
 export {
   createingBlock,
   updateBlock,
@@ -459,4 +573,9 @@ export {
   getAllPlan,
   getOnePlan,
   deletePlan,
+  createPanelty,
+  updatePanelty,
+  userPanelty,
+  onePanelty,
+  allPanelty,
 };

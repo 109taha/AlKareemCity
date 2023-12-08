@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
-import dotEnv from "dotenv";
-dotEnv.config();
+import {} from "dotenv/config";
+// dotEnv.config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

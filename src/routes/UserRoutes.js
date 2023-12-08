@@ -2,6 +2,7 @@ import {
   registeredUser,
   loginUser,
   updateUser,
+  profilePic,
   addPlan,
   allUser,
   deleteUser,
@@ -9,7 +10,6 @@ import {
   registeredAdmin,
   loginAdmin,
   updateAdmin,
-  profilePicAdmin,
   allAdmin,
   deleteAdmin,
   oneAdmin,
@@ -24,6 +24,7 @@ const router = express.Router();
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
 router.put("/update/:userId", updateUser);
+router.post("/profilePic", verifyUser, profilePic);
 router.post("/addPlan/:userId", verifyAdmin, addPlan);
 router.get("/all", allUser);
 router.get("/one/:Id", oneUser);

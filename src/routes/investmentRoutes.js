@@ -18,6 +18,11 @@ import {
   getOnePlan,
   deletePlan,
   multiplePlot,
+  createPanelty,
+  updatePanelty,
+  userPanelty,
+  onePanelty,
+  allPanelty,
 } from "../controllers/investmentController.js";
 import { allAmount, paymentAmount } from "../controllers/flowController.js";
 
@@ -42,6 +47,13 @@ router.post("/updatePlan/:planId", updatePlan);
 router.get("/getAllPlan", getAllPlan);
 router.get("/getOnePlan/:planId", getOnePlan);
 router.delete("/deletePlan/:planId", deletePlan);
+
+//panelty
+router.post("/createPanelty/:userId", createPanelty);
+router.put("/updatePanelty/:paneltyId", updatePanelty);
+router.get("/userPanelty/:userId", userPanelty);
+router.get("/onePanelty/:paneltyId", onePanelty);
+router.get("/allPanelty", allPanelty);
 
 //flow
 router.get("/allAmount/:userId", allAmount);
