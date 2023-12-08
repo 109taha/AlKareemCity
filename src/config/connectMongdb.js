@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-console.log(process.env);
-
 const DB_URL = process.env.MongodbUrl || "mongodb://127.0.0.1:27017/Alkareem";
 async function connectToMongoDB() {
   try {
