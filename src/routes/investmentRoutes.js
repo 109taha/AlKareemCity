@@ -19,7 +19,7 @@ import {
   deletePlan,
   multiplePlot,
 } from "../controllers/investmentController.js";
-import { allAmount, paymentAmount } from "../controllers/flowcontroller.js";
+import { allAmount, paymentAmount } from "../controllers/flowController.js";
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);

@@ -118,8 +118,6 @@ const addPlan = async (req, res) => {
   try {
     const userId = req.params.userId;
     const { plotId, planId, planStartedDate, planEndedDate } = req.body;
-    console.log("planStartedDate===>", planStartedDate);
-    console.log("planEndedDate===>", planEndedDate);
     const user = await User.findById(userId);
 
     user.plotId = plotId || user.plotId;
@@ -147,7 +145,6 @@ const addPlan = async (req, res) => {
     });
 
     await amount.save();
-    console.log(amount);
     user.amount = amount._id;
     await user.save();
 
