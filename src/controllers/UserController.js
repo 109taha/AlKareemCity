@@ -83,7 +83,7 @@ const loginUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { name, email, password } = req.body;
+    const { name, email, password, deviceToken } = req.body;
     const user = await User.findById(userId);
 
     if (password) {
@@ -92,6 +92,7 @@ const updateUser = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
       user.hash_password = hashedPassword || user.hash_password;
+      user.deviceToken = deviceToken || user.deviceToken;
     }
 
     user.name = name || user.name;

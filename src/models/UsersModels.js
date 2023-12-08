@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Amount",
     },
+    deviceToken: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
