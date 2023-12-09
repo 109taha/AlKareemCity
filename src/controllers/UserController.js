@@ -229,7 +229,6 @@ const oneUser = async (req, res) => {
 const profilePic = async (req, res) => {
   const files = req.files;
   const attachArtwork = [];
-  console.log(files);
   try {
     if (files && files.length > 0) {
       for (const file of files) {
@@ -256,8 +255,7 @@ const profilePic = async (req, res) => {
         .status(404)
         .send({ success: false, message: "User not found" });
     }
-    user.profile_pic =
-      attachArtwork.length > 0 ? attachArtwork[0].url : user.profile_pic;
+    user.profile_pic = attachArtwork[0].url || user.profile_pic;
 
     await user.save();
 

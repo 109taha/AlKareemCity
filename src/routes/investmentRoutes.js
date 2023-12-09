@@ -23,6 +23,8 @@ const {
   getOnePlan,
   deletePlan,
   multiplePlot,
+  searchPlotByUser,
+  allPlotsByBlock,
   createPanelty,
   updatePanelty,
   userPanelty,
@@ -48,6 +50,8 @@ router.post("/updatePlot/:plotId", updatePlot);
 router.get("/getAllPlot", getAllPlot);
 router.get("/getOnePlot/:plotId", getOnePlot);
 router.delete("/deletePlot/:plotId", deletePlot);
+router.get("/searchPlotByUser/:ownerName", searchPlotByUser);
+router.get("/allPlotsByBlock/:blockId", allPlotsByBlock);
 
 // plans
 router.post("/createingPlan", planJoi, createingPlan);

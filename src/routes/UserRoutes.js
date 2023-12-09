@@ -26,7 +26,7 @@ router.post("/login", loginUser);
 router.put("/update/:userId", updateUser);
 router.post(
   "/profilePic",
-  upload.array("attachArtwork", 5),
+  upload.array("attachArtwork", 1),
   verifyUser,
   profilePic
 );

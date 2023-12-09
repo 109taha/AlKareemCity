@@ -16,10 +16,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    plotId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Plot",
-    },
+    plotId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Plot",
+      },
+    ],
     planId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
