@@ -333,18 +333,62 @@ const searchPlotByUser = async (req, res) => {
 const allPlotsByBlock = async (req, res) => {
   try {
     const blockId = req.params.blockId;
-    const plot = await PlotModel.find({
+
+    let sortBY = { createdAt: -1 };
+
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+    const total = await PlotModel.countDocuments({
       BlockNumber: blockId,
     });
+
+    const plot = await PlotModel.find({
+      BlockNumber: blockId,
+    })
+      .sort(sortBY)
+      .skip(skip)
+      .limit(limit);
+
+    const totalPages = Math.ceil(total / limit);
+
     if (!plot.length > 0) {
       return res.status(404).send({ success: false, message: "No plot found" });
     }
-    res.status(200).send({ success: true, data: plot });
+    res
+      .status(200)
+      .send({ success: true, data: plot, limit, total, totalPages });
   } catch (error) {
     console.log(error);
     return res
       .status(500)
       .send({ success: false, message: "Internal server error", error });
+  }
+};
+
+const allPlotsByPlotNumberWithBlock = async (req, res) => {
+  try {
+    const blockId = req.params.blockId;
+    const plotNum = req.params.plotNum;
+
+    const plot = await PlotModel.find({
+      BlockNumber: blockId,
+      plotNumber: plotNum,
+    });
+
+    if (!plot.length > 0)
+      return res
+        .status(404)
+        .send({ success: false, message: "No plot found on that Id!" });
+
+    res.status(200).send({ success: true, data: plot });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).send({
+      success: false,
+      meessage: "Internal server error!",
+      error,
+    });
   }
 };
 
@@ -621,6 +665,7 @@ module.exports = {
   deletePlot,
   searchPlotByUser,
   allPlotsByBlock,
+  allPlotsByPlotNumberWithBlock,
   createingPlan,
   updatePlan,
   getAllPlan,
