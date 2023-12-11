@@ -19,9 +19,16 @@ const createingBlock = async (req, res) => {
         existingBlock: existingBlock,
       });
 
+    if (blockData.plotStartNumber > blockData.plotEndNumber) {
+      return res.status(400).send({
+        success: false,
+        message: "Plot Ending number must be greater then plor starting number",
+      });
+    }
+
     const newBlock = new BlockModel({
       blockName: blockData.blockName,
-      totalNumberOfPlot: blockData.totalNumberOfPlot,
+      totalNumberOfPlot: blockData.plotEndNumber - blockData.plotStartNumber,
       plotStartNumber: blockData.plotStartNumber,
       plotEndNumber: blockData.plotEndNumber,
     });

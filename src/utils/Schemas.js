@@ -40,7 +40,6 @@ const AdminJoi = (req, res, next) => {
 // BLOCK
 const BlockSchema = joi.object({
   blockName: joi.string().required(),
-  totalNumberOfPlot: joi.number().required(),
   plotStartNumber: joi.number().required(),
   plotEndNumber: joi.number().required(),
 });

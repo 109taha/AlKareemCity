@@ -15,6 +15,10 @@ const PaneltySchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    paid: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
