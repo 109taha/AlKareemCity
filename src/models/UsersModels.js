@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
     panelty: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Amount",
+        ref: "Panelty",
       },
     ],
     deviceToken: {

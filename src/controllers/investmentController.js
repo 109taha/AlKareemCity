@@ -563,6 +563,11 @@ const createPanelty = async (req, res) => {
     });
     await newPanelty.save();
 
+    const user = await User.findById(userId);
+    user.panelty = newPanelty._id;
+
+    await user.save();
+
     res.status(200).send({
       success: true,
       data: newPanelty,
