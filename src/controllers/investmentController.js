@@ -549,22 +549,25 @@ const deletePlan = async (req, res) => {
 const createPanelty = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { amount, reason } = req.body;
-    if (!amount || !reason) {
+    const { amount, reason, date } = req.body;
+    if (!amount || !reason || !date) {
       return res.status(404).send({
         success: false,
-        message: "You have to provide amount and reason to add panelty ",
+        message: "You have to provide amount, date and reason to add panelty",
       });
     }
+
     const newPanelty = new Panelty({
       amount,
       reason,
+      date,
       userId,
     });
+
     await newPanelty.save();
 
     const user = await User.findById(userId);
-    user.panelty.push(newPanelty._id);
+    user.panelty = newPanelty._id;
 
     await user.save();
 
@@ -584,11 +587,12 @@ const updatePanelty = async (req, res) => {
   try {
     const paneltyId = req.params.paneltyId;
     const panelty = await Panelty(paneltyId);
-    const { userId, amount, reason } = req.body;
+    const { userId, amount, date, reason } = req.body;
 
     panelty.userId = userId || panelty.userId;
     panelty.amount = amount || panelty.amount;
     panelty.reason = reason || panelty.reason;
+    panelty.date = date || panelty.date;
 
     await panelty.save();
 

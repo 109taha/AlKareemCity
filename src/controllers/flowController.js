@@ -5,61 +5,56 @@ const Panelty = require("../models/paneltyModel.js");
 const sendNotification = require("../helper/notiffication.js");
 
 const allAmount = async (req, res) => {
-  // try {
-  //   const userId = req.params.userId;
-  //   const user = await User.findById(userId)
-  //     .populate({
-  //       path: "amount",
-  //       select:
-  //         "totalAmount bookingAmount monthlyAmount totalPaidAmount totalRemainingAmount createdAt",
-  //     })
-  //     .populate({ path: "panelty", select: "amount reason" });
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId)
+      .populate({
+        path: "amount",
+        select:
+          "totalAmount bookingAmount monthlyAmount totalPaidAmount totalRemainingAmount createdAt",
+      })
+      .populate({ path: "panelty", select: "amount reason" });
 
-  //   let totalMoney = [];
-  //   for (let index = 0; index < user.panelty.length; index++) {
-  //     const element = user.panelty[index];
-  //     if (!element.paid == true) totalMoney.push(element.amount);
-  //   }
+    console.log(user);
 
-  //   const totalAmountOfPayThatMonth = totalMoney.reduce(
-  //     (accumulator, currentValue) => accumulator + currentValue,
-  //     user.amount.monthlyAmount
-  //   );
-  //   const totalAmount = user.amount.totalAmount;
-  //   const bookingAmount = user.amount.bookingAmount;
-  //   let monthlyAmount = user.amount.monthlyAmount;
-  //   const totalPaidAmount = user.amount.totalPaidAmount;
-  //   const totalRemainingAmount = user.amount.totalRemainingAmount;
+    //   let totalMoney = [];
+    //   for (let index = 0; index < user.panelty.length; index++) {
+    //     const element = user.panelty[index];
+    //     if (!element.paid == true) totalMoney.push(element.amount);
+    //   }
+    //   const totalAmountOfPayThatMonth = totalMoney.reduce(
+    //     (accumulator, currentValue) => accumulator + currentValue,
+    //     user.amount.monthlyAmount
+    //   );
+    //   const totalAmount = user.amount.totalAmount;
+    //   const bookingAmount = user.amount.bookingAmount;
+    //   let monthlyAmount = user.amount.monthlyAmount;
+    //   const totalPaidAmount = user.amount.totalPaidAmount;
+    //   const totalRemainingAmount = user.amount.totalRemainingAmount;
+    //   if (user.paymentOnThatMonth == false) {
+    //     monthlyAmount = 0;
+    //     console.log(monthlyAmount);
+    //   }
+    //   return res.status(200).send({
+    //     success: true,
+    //     data: {
+    //       totalAmountOfPayThatMonth,
+    //       totalAmount,
+    //       bookingAmount,
+    //       monthlyAmount,
+    //       totalPaidAmount,
+    //       totalRemainingAmount,
+    //     },
+    //   });
 
-  //   if (user.paymentOnThatMonth == false) {
-  //     monthlyAmount = 0;
-  //     console.log(monthlyAmount);
-  //   }
-
-  //   return res.status(200).send({
-  //     success: true,
-  //     data: {
-  //       totalAmountOfPayThatMonth,
-  //       totalAmount,
-  //       bookingAmount,
-  //       monthlyAmount,
-  //       totalPaidAmount,
-  //       totalRemainingAmount,
-  //     },
-  //   });
-
-
-
-  //-------------------------------------------------------------------
+    //-------------------------------------------------------------------
     // const userId = req.params.userId;
-
     // const amount = await Amount.findOne({ userId }).populate({
     //   path: "userId",
     //   select: "name panelty",
     //   populate: { path: "panelty", select: "reason amount " },
     // });
     // const findPlaneltyId = amount.userId.panelty;
-
     // let paneltyId = [];
     // for (let index = 0; index < findPlaneltyId.length; index++) {
     //   const element = findPlaneltyId[index];
@@ -68,7 +63,6 @@ const allAmount = async (req, res) => {
     //     paneltyId.push(panelty);
     //   }
     // }
-
     // const paneltyData = paneltyId.map((item) => ({
     //   amountPanelty: item.amount,
     //   reasonPanelty: item.reason,
@@ -81,11 +75,9 @@ const allAmount = async (req, res) => {
     //     amount.monthlyAmount + element.amountPanelty;
     //   }
     // }
-
     // if (amount.userId.paymentOnThatMonth == false) {
     //   amount.monthlyAmount = 0;
     // }
-
     // res.status(200).send({ success: true, data: amount });
   } catch (error) {
     console.log(error);
