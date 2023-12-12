@@ -564,7 +564,7 @@ const createPanelty = async (req, res) => {
     await newPanelty.save();
 
     const user = await User.findById(userId);
-    user.panelty = newPanelty._id;
+    user.panelty.push(newPanelty._id);
 
     await user.save();
 

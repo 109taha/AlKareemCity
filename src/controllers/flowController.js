@@ -1,19 +1,92 @@
 const User = require("../models/UsersModels.js");
 const Amount = require("../models/AmountModel.js");
 const PaymentHistory = require("../models/AmountRecipt.js");
+const Panelty = require("../models/paneltyModel.js");
 const sendNotification = require("../helper/notiffication.js");
 
 const allAmount = async (req, res) => {
-  try {
-    const userId = req.params.userId;
+  // try {
+  //   const userId = req.params.userId;
+  //   const user = await User.findById(userId)
+  //     .populate({
+  //       path: "amount",
+  //       select:
+  //         "totalAmount bookingAmount monthlyAmount totalPaidAmount totalRemainingAmount createdAt",
+  //     })
+  //     .populate({ path: "panelty", select: "amount reason" });
 
-    const amount = await Amount.findOne({ userId }).populate("userId");
+  //   let totalMoney = [];
+  //   for (let index = 0; index < user.panelty.length; index++) {
+  //     const element = user.panelty[index];
+  //     if (!element.paid == true) totalMoney.push(element.amount);
+  //   }
 
-    if ((amount.userId.paymentOnThatMonth = true)) {
-      amount.monthlyAmount = 0;
-    }
+  //   const totalAmountOfPayThatMonth = totalMoney.reduce(
+  //     (accumulator, currentValue) => accumulator + currentValue,
+  //     user.amount.monthlyAmount
+  //   );
+  //   const totalAmount = user.amount.totalAmount;
+  //   const bookingAmount = user.amount.bookingAmount;
+  //   let monthlyAmount = user.amount.monthlyAmount;
+  //   const totalPaidAmount = user.amount.totalPaidAmount;
+  //   const totalRemainingAmount = user.amount.totalRemainingAmount;
 
-    res.status(200).send({ success: true, data: amount });
+  //   if (user.paymentOnThatMonth == false) {
+  //     monthlyAmount = 0;
+  //     console.log(monthlyAmount);
+  //   }
+
+  //   return res.status(200).send({
+  //     success: true,
+  //     data: {
+  //       totalAmountOfPayThatMonth,
+  //       totalAmount,
+  //       bookingAmount,
+  //       monthlyAmount,
+  //       totalPaidAmount,
+  //       totalRemainingAmount,
+  //     },
+  //   });
+
+
+
+  //-------------------------------------------------------------------
+    // const userId = req.params.userId;
+
+    // const amount = await Amount.findOne({ userId }).populate({
+    //   path: "userId",
+    //   select: "name panelty",
+    //   populate: { path: "panelty", select: "reason amount " },
+    // });
+    // const findPlaneltyId = amount.userId.panelty;
+
+    // let paneltyId = [];
+    // for (let index = 0; index < findPlaneltyId.length; index++) {
+    //   const element = findPlaneltyId[index];
+    //   const panelty = await Panelty.findById(element);
+    //   if (panelty.paid == false) {
+    //     paneltyId.push(panelty);
+    //   }
+    // }
+
+    // const paneltyData = paneltyId.map((item) => ({
+    //   amountPanelty: item.amount,
+    //   reasonPanelty: item.reason,
+    // }));
+    // console.log(amount.monthlyAmount);
+    // console.log(paneltyData);
+    // for (let i = 0; i < paneltyData.length; i++) {
+    //   const element = paneltyData[i];
+    //   if (paneltyData.length < 0) {
+    //     amount.monthlyAmount + element.amountPanelty;
+    //   }
+    // }
+
+    // if (amount.userId.paymentOnThatMonth == false) {
+    //   amount.monthlyAmount = 0;
+    // }
+
+    // res.status(200).send({ success: true, data: amount });
   } catch (error) {
     console.log(error);
     return res
