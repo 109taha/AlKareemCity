@@ -11,7 +11,7 @@ const Amount = require("../models/AmountModel.js");
 const registeredUser = async (req, res) => {
   try {
     const user = req.body;
-    const existingUser = await User.findOne({ email: user.email });
+    const existingUser = await User.findOne({ uniqueId: user.uniqueId });
     if (existingUser) {
       return res
         .status(400)
@@ -23,7 +23,7 @@ const registeredUser = async (req, res) => {
 
     const newUser = await User({
       name: user.name,
-      email: user.email,
+      uniqueId: user.uniqueId,
       hash_password: user.password,
     });
     await newUser.save();
@@ -45,14 +45,14 @@ const registeredUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email && !password) {
+    const { uniqueId, password } = req.body;
+    if (!uniqueId && !password) {
       return res.status(400).send({
         success: false,
         message: "You have to provide the password and email",
       });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ uniqueId });
     if (!user) {
       return res
         .status(400)
@@ -120,7 +120,7 @@ const addPlan = async (req, res) => {
     const userId = req.params.userId;
     const { plotId, planId, planStartedDate, planEndedDate } = req.body;
     const user = await User.findById(userId);
-
+    console.log(plotId);
     user.plotId = plotId || user.plotId;
     user.planId = planId || user.planId;
     user.planStartedDate = planStartedDate || user.planStartedDate;
