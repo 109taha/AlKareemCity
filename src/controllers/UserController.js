@@ -43,6 +43,31 @@ const registeredUser = async (req, res) => {
   }
 };
 
+const otpVerify = async (req, res) => {
+  try {
+    const otpCode = req.body.otp;
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+
+    if (otpCode != user.OTP) {
+      return res.status(400).send({ success: false, message: "Wrong Code" });
+    }
+
+    user.isVerify = true;
+    await user.save();
+
+    res
+      .status(200)
+      .send({ success: true, message: "Your Acount is Verifyed!" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
 const loginUser = async (req, res) => {
   try {
     const { uniqueId, password } = req.body;
@@ -64,6 +89,12 @@ const loginUser = async (req, res) => {
         success: false,
         message: "Maybe your Email or Password is not correct!",
       });
+    }
+    if (user.isVerify == false) {
+      const otpToken =
+        Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+      user.OTP = otpToken;
+      await user.save();
     }
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
@@ -394,8 +425,7 @@ const updateAdmin = async (req, res) => {
   }
 };
 
-const 
-allAdmin = async (req, res) => {
+const allAdmin = async (req, res) => {
   try {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -474,6 +504,7 @@ const deleteAdmin = async (req, res) => {
 
 module.exports = {
   registeredUser,
+  otpVerify,
   loginUser,
   updateUser,
   addPlan,

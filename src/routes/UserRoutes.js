@@ -13,6 +13,7 @@ const {
   allAdmin,
   deleteAdmin,
   oneAdmin,
+  otpVerify,
 } = require("../controllers/UserController.js");
 const { verifyUser, verifyAdmin } = require("../middlewares/middlewares.js");
 const { UserJoi, AdminJoi } = require("../utils/Schemas.js");
@@ -23,6 +24,7 @@ const router = express.Router();
 //users
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
+router.post("/otp/:userId", otpVerify);
 router.put("/update/:userId", updateUser);
 router.post(
   "/profilePic",
