@@ -16,6 +16,35 @@ const allAmount = async (req, res) => {
       .populate({ path: "panelty", select: "amount reason" });
 
     console.log(user);
+    const totalAmount = user.amount.totalAmount;
+    const totalPaidAmount = user.amount.totalPaidAmount;
+    const bookingAmount = user.amount.bookingAmount;
+    const totalRemainingAmount = user.amount.totalRemainingAmount;
+    if (user.panelty) {
+      const monthlyAmount = user.amount.monthlyAmount + user.panelty.amount;
+      return res.status(200).send({
+        success: true,
+        data: {
+          totalAmount,
+          monthlyAmount,
+          bookingAmount,
+          totalPaidAmount,
+          totalRemainingAmount,
+        },
+      });
+    } else {
+      const monthlyAmount = user.amount.monthlyAmount;
+      return res.status(200).send({
+        success: true,
+        data: {
+          totalAmount,
+          monthlyAmount,
+          bookingAmount,
+          totalPaidAmount,
+          totalRemainingAmount,
+        },
+      });
+    }
 
     //   let totalMoney = [];
     //   for (let index = 0; index < user.panelty.length; index++) {

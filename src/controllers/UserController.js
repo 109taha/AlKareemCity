@@ -394,7 +394,8 @@ const updateAdmin = async (req, res) => {
   }
 };
 
-const allAdmin = async (req, res) => {
+const 
+allAdmin = async (req, res) => {
   try {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
