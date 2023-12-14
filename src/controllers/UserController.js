@@ -77,7 +77,7 @@ const loginUser = async (req, res) => {
         message: "You have to provide the password and email",
       });
     }
-    const user = await User.findOne({ uniqueId });
+    const user = await User.findOne({ uniqueId }).populate("plotId");
     if (!user) {
       return res
         .status(400)
@@ -237,7 +237,13 @@ const allUser = async (req, res) => {
 const oneUser = async (req, res) => {
   try {
     const userId = req.params.Id;
-    const users = await User.findById(userId);
+    const users = await User.findById(userId)
+      .populate({
+        path: "plotId",
+        select: "plotNumber price",
+        populate: { path: "BlockNumber", select: "blockName " },
+      })
+      .populate({ path: "amount", select: "monthlyAmount" });
     if (!users) {
       return res
         .status(400)

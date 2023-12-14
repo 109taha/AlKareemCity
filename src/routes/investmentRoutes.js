@@ -31,6 +31,7 @@ const {
   onePanelty,
   allPanelty,
   allPlotsByPlotNumberWithBlock,
+  getUserPlot,
 } = require("../controllers/investmentController.js");
 const {
   allAmount,
@@ -50,6 +51,7 @@ router.post("/multiplePlot", plotJoiArray, multiplePlot);
 router.post("/updatePlot/:plotId", updatePlot);
 router.get("/getAllPlot", getAllPlot);
 router.get("/getOnePlot/:plotId", getOnePlot);
+router.get("/getUserPlot/:userId", getUserPlot);
 router.delete("/deletePlot/:plotId", deletePlot);
 router.get("/searchPlotByUser/:ownerName", searchPlotByUser);
 router.get("/allPlotsByBlock/:blockId", allPlotsByBlock);

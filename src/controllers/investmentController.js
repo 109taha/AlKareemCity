@@ -286,6 +286,28 @@ const getOnePlot = async (req, res) => {
   }
 };
 
+const getUserPlot = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId)
+      .select("plotId")
+      .populate("plotId");
+    console.log(user);
+    if (!user) {
+      return res
+        .status(400)
+        .send({ success: false, message: "No user found on that Id" });
+    }
+
+    res.status(200).send({ success: true, data: user });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!", error });
+  }
+};
+
 const deletePlot = async (req, res) => {
   try {
     const plotId = req.params.plotId;
@@ -678,6 +700,7 @@ module.exports = {
   updatePlot,
   getAllPlot,
   getOnePlot,
+  getUserPlot,
   deletePlot,
   searchPlotByUser,
   allPlotsByBlock,

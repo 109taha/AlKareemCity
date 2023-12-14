@@ -27,7 +27,11 @@ const allAmount = async (req, res) => {
 
     let monthlyAmount = user.amount.monthlyAmount;
 
-    if (user.panelty) {
+    // Check if paymentOnThatMonth is true, set monthlyAmount to 0
+    if (user.paymentOnThatMonth) {
+      monthlyAmount = 0;
+    } else if (user.panelty) {
+      // Check if there is a penalty for the current month
       const lastPenaltyDate = new Date(user.panelty.date);
       const lastPenaltyMonth = lastPenaltyDate.toLocaleString("default", {
         month: "long",
