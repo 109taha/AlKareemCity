@@ -1,15 +1,23 @@
 {
-  "name": "alkareemcity",
+  "name": "Alkareem",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "description": "Al Kareem city",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index",
-    "dev": "nodemon src/index"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
-  "author": "Syed Muhammad Taha Ali",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/109taha/AlKareemCity.git"
+  },
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/109taha/AlKareemCity/issues"
+  },
+  "homepage": "https://github.com/109taha/AlKareemCity#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.0",
