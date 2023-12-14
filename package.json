@@ -8,7 +8,7 @@
     "start": "node src/index",
     "dev": "nodemon src/index"
   },
-  "author": "",
+  "author": "Syed Muhammad Taha Ali",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
