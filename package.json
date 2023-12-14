@@ -1,5 +1,5 @@
 {
-  "name": "Alkareem",
+  "name": "alkareem",
   "version": "1.0.0",
   "description": "Al Kareem city",
   "main": "src/index.js",
@@ -35,5 +35,6 @@
     "node-schedule": "^2.1.1",
     "nodemon": "^3.0.1",
     "path": "^0.12.7"
-  }
+  },
+  "devDependencies": {}
 }
