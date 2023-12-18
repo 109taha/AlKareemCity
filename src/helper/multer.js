@@ -18,11 +18,12 @@ const imageFilter = (req, file, cb) => {
     file.mimetype === "image/webp" ||
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/avif" ||
-    file.mimetype === "image/jfif"
+    file.mimetype === "image/jfif" ||
+    file.mimetype === "application/pdf"
   ) {
     cb(null, true);
   } else {
-    cb(new Error("Only image or zip files are allowed!"));
+    cb(new Error("Only image, pdf or zip files are allowed!"));
   }
 };
 

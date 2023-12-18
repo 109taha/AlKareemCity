@@ -33,3 +33,7 @@ app.use("/user", user);
 const investment = require("./routes/investmentRoutes.js");
 
 app.use("/", investment);
+
+const form = require("./routes/form.js");
+
+app.use("/", form);
