@@ -77,7 +77,13 @@ const loginUser = async (req, res) => {
         message: "You have to provide the password and email",
       });
     }
-    const user = await User.findOne({ uniqueId }).populate("plotId");
+    const user = await User.findOne({ uniqueId })
+      .populate({
+        path: "plotId",
+        select: "plotNumber price",
+        populate: { path: "BlockNumber", select: "blockName " },
+      })
+      .populate({ path: "amount", select: "monthlyAmount" });
     if (!user) {
       return res
         .status(400)
