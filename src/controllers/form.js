@@ -78,4 +78,15 @@ const createForm = async (req, res) => {
   }
 };
 
+const getFormCategory = async (req, res) => {
+  try {
+    const 
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!" });
+  }
+};
+
 module.exports = { createCategory, createForm };
