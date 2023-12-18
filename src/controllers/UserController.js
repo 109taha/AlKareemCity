@@ -55,10 +55,15 @@ const otpVerify = async (req, res) => {
 
     user.isVerify = true;
     await user.save();
+    const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
     res
       .status(200)
-      .send({ success: true, message: "Your Acount is Verifyed!" });
+      .send({
+        success: true,
+        message: "Your Acount is Verifyed!",
+        Token: token,
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
