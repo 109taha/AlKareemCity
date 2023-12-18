@@ -32,7 +32,7 @@ router.post(
   verifyUser,
   profilePic
 );
-router.post("/addPlan/:userId", verifyAdmin, addPlan);
+router.post("/addPlan/:userId", addPlan);
 router.get("/all", allUser);
 router.get("/one/:Id", oneUser);
 router.delete("/delete/:Id", deleteUser);
