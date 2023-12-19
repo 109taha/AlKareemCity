@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Amount",
     },
+
     panelty: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Panelty",
