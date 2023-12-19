@@ -375,6 +375,7 @@ const allPlotsByBlock = async (req, res) => {
     const plot = await PlotModel.find({
       BlockNumber: blockId,
     })
+      .populate({ path: "BlockNumber", select: "blockName" })
       .sort(sortBY)
       .skip(skip)
       .limit(limit);
