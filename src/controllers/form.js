@@ -80,6 +80,13 @@ const createForm = async (req, res) => {
 
 const getFormCategory = async (req, res) => {
   try {
+    const formCategory = await FormCategory.find();
+    if (!formCategory.length > 0) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No form Data found" });
+    }
+    return res.status(200).send({ success: true, data: formCategory });
   } catch (error) {
     console.log(error);
     return res
@@ -88,4 +95,64 @@ const getFormCategory = async (req, res) => {
   }
 };
 
-module.exports = { createCategory, createForm };
+const getForm = async (req, res) => {
+  try {
+    const formCategory = await Form.find();
+    if (!formCategory.length > 0) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No form Data found" });
+    }
+    return res.status(200).send({ success: true, data: formCategory });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!" });
+  }
+};
+
+const getOneFormCategory = async (req, res) => {
+  try {
+    const formId = req.params.formId;
+    const formCategory = await FormCategory.findById(formId);
+    if (!formCategory) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No form Data found on that id" });
+    }
+    return res.status(200).send({ success: true, data: formCategory });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!" });
+  }
+};
+
+const getOneForm = async (req, res) => {
+  try {
+    const formId = req.params.formId;
+    const formCategory = await Form.findById(formId);
+    if (!formCategory) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No form Data found on that id" });
+    }
+    return res.status(200).send({ success: true, data: formCategory });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!" });
+  }
+};
+
+module.exports = {
+  createCategory,
+  createForm,
+  getFormCategory,
+  getForm,
+  getOneFormCategory,
+  getOneForm,
+};
