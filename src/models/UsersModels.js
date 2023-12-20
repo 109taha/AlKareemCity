@@ -6,10 +6,32 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    uniqueId: {
+    CNIC: {
       type: String,
       require: true,
-      unique: true,
+    },
+    fatherName: {
+      type: String,
+    },
+    address: {
+      type: String,
+      require: true,
+    },
+    nationality: {
+      type: String,
+    },
+    country: {
+      type: String,
+      require: true,
+    },
+    area: {
+      type: String,
+    },
+    DOB: {
+      type: String,
+    },
+    phone: {
+      type: String,
     },
     email: {
       type: String,
@@ -19,35 +41,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    plotId: [
+    planId: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Plot",
+        ref: "Plan",
       },
     ],
-    planId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Plan",
-    },
-    planStartedDate: {
-      type: Date,
-    },
-    planEndedDate: {
-      type: Date,
-    },
-    paymentOnThatMonth: {
-      type: Boolean,
-      default: false,
-    },
-    amount: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Amount",
-    },
-
-    panelty: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Panelty",
-    },
     deviceToken: {
       type: String,
     },

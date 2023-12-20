@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 
 const PlansSchema = new mongoose.Schema(
   {
-    sqYard: {
-      type: Number,
+    pLanId: {
+      type: String,
     },
-    blockId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Block",
+    totalAmount: {
+      type: Number,
     },
     bookingAmount: {
       type: Number,
@@ -27,6 +26,27 @@ const PlansSchema = new mongoose.Schema(
     },
     possessionAmount: {
       type: Number,
+    },
+    planStartedDate: {
+      type: Date,
+    },
+    planEndedDate: {
+      type: Date,
+    },
+    totalPaidAmount: {
+      type: Number,
+      default: 0,
+    },
+    totalRemainingAmount: {
+      type: Number,
+    },
+    plotId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plot",
+    },
+    panelty: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Panelty",
     },
   },
   { timestamps: true }

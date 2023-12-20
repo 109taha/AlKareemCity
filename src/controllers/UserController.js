@@ -6,7 +6,6 @@ const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Plan = require("../models/PlansModel.js");
 const Plot = require("../models/PlotModel.js");
-const Amount = require("../models/AmountModel.js");
 
 const registeredUser = async (req, res) => {
   try {
@@ -57,13 +56,11 @@ const otpVerify = async (req, res) => {
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "Your Acount is Verifyed!",
-        Token: token,
-      });
+    res.status(200).send({
+      success: true,
+      message: "Your Acount is Verifyed!",
+      Token: token,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
@@ -82,13 +79,7 @@ const loginUser = async (req, res) => {
         message: "You have to provide the password and email",
       });
     }
-    const user = await User.findOne({ uniqueId })
-      .populate({
-        path: "plotId",
-        select: "plotNumber price",
-        populate: { path: "BlockNumber", select: "blockName " },
-      })
-      .populate({ path: "amount", select: "monthlyAmount" });
+    const user = await User.findOne({ uniqueId }).populate("planId");
     if (!user) {
       return res
         .status(400)
@@ -125,7 +116,7 @@ const loginUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { name, email, password, deviceToken } = req.body;
+    const { name, email, password, deviceToken, planId } = req.body;
     const user = await User.findById(userId);
 
     if (password) {
@@ -137,6 +128,7 @@ const updateUser = async (req, res) => {
     }
 
     user.name = name || user.name;
+    user.planId = planId || user.planId;
     user.email = email || user.email;
     user.deviceToken = deviceToken || user.deviceToken;
 
@@ -157,55 +149,39 @@ const updateUser = async (req, res) => {
   }
 };
 
-const addPlan = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const { plotId, planId, planStartedDate, planEndedDate } = req.body;
-    const user = await User.findById(userId);
-    console.log(plotId);
-    user.plotId = plotId || user.plotId;
-    user.planId = planId || user.planId;
-    user.planStartedDate = planStartedDate || user.planStartedDate;
-    user.planEndedDate = planEndedDate || user.planEndedDate;
+// const addPlan = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const { plotId, planId, planStartedDate, planEndedDate } = req.body;
+//     const user = await User.findById(userId);
+//     console.log(plotId);
+//     user.plotId = plotId || user.plotId;
+//     user.planId = planId || user.planId;
+//     user.planStartedDate = planStartedDate || user.planStartedDate;
+//     user.planEndedDate = planEndedDate || user.planEndedDate;
 
-    const plan = await Plan.findById(planId);
+//     const plan = await Plan.findById(planId);
 
-    const plot = await Plot.findById(plotId);
+//     const plot = await Plot.findById(plotId);
+//     await amount.save();
+//     user.amount = amount._id;
+//     await user.save();
 
-    const totalAmount = plot.price;
-    const bookingAmount = plan.bookingAmount;
-    const monthlyAmount = plan.investmentMonth;
-    const totalPaidAmount = bookingAmount;
-    const totalRemainingAmount = totalAmount - bookingAmount;
+//     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-    const amount = new Amount({
-      totalAmount,
-      bookingAmount,
-      monthlyAmount,
-      totalPaidAmount,
-      totalRemainingAmount,
-      userId,
-    });
-
-    await amount.save();
-    user.amount = amount._id;
-    await user.save();
-
-    const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
-
-    res.status(200).send({
-      success: true,
-      message: "User Update successfully",
-      Token: token,
-      data: user,
-    });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .send({ success: false, message: "Internal server error" });
-  }
-};
+//     res.status(200).send({
+//       success: true,
+//       message: "User Update successfully",
+//       Token: token,
+//       data: user,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .send({ success: false, message: "Internal server error" });
+//   }
+// };
 
 const allUser = async (req, res) => {
   try {
@@ -248,13 +224,7 @@ const allUser = async (req, res) => {
 const oneUser = async (req, res) => {
   try {
     const userId = req.params.Id;
-    const users = await User.findById(userId)
-      .populate({
-        path: "plotId",
-        select: "plotNumber price",
-        populate: { path: "BlockNumber", select: "blockName " },
-      })
-      .populate({ path: "amount", select: "monthlyAmount" });
+    const users = await User.findById(userId).populate("planId");
     if (!users) {
       return res
         .status(400)
@@ -524,7 +494,6 @@ module.exports = {
   otpVerify,
   loginUser,
   updateUser,
-  addPlan,
   allUser,
   deleteUser,
   oneUser,

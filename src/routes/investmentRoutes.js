@@ -33,10 +33,10 @@ const {
   allPlotsByPlotNumberWithBlock,
   getUserPlot,
 } = require("../controllers/investmentController.js");
-const {
-  allAmount,
-  paymentAmount,
-} = require("../controllers/flowController.js");
+// const {
+//   allAmount,
+//   paymentAmount,
+// } = require("../controllers/flowController.js");
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);
@@ -74,8 +74,8 @@ router.get("/userPanelty/:userId", userPanelty);
 router.get("/onePanelty/:paneltyId", onePanelty);
 router.get("/allPanelty", allPanelty);
 
-//flow
-router.get("/allAmount/:userId", allAmount);
-router.post("/paymentAmount/:userId", paymentAmount);
+// //flow
+// router.get("/allAmount/:userId", allAmount);
+// router.post("/paymentAmount/:userId", paymentAmount);
 
 module.exports = router;

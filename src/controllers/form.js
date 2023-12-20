@@ -97,7 +97,8 @@ const getFormCategory = async (req, res) => {
 
 const getForm = async (req, res) => {
   try {
-    const formCategory = await Form.find();
+    const categoryId = req.params.formId;
+    const formCategory = await Form.find({ category: categoryId });
     if (!formCategory.length > 0) {
       return res
         .status(404)
@@ -148,6 +149,8 @@ const getOneForm = async (req, res) => {
   }
 };
 
+//gallery
+const create = async (req, res) => {};
 module.exports = {
   createCategory,
   createForm,
