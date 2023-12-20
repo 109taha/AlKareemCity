@@ -79,3 +79,11 @@ router.get("/allPanelty", allPanelty);
 // router.post("/paymentAmount/:userId", paymentAmount);
 
 module.exports = router;
+
+// array = [1, 2, 3, 4];
+// let newArray = [];
+// for (let i = 0; i < array.length; i++) {
+//   const element = array[i];
+//   newArray.push(element * 2);
+// }
+// console.log(newArray);

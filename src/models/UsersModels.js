@@ -6,8 +6,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    CNIC: {
+    uniqueId: {
       type: String,
+      require: true,
+      unique: true,
+    },
+    CNIC: {
+      type: Number,
       require: true,
     },
     fatherName: {

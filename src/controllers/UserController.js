@@ -4,12 +4,12 @@ const cloudinary = require("../helper/cloudinary.js");
 const fs = require("fs");
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Plan = require("../models/PlansModel.js");
-const Plot = require("../models/PlotModel.js");
+const { authJoi } = require("../utils/Schemas.js");
 
 const registeredUser = async (req, res) => {
   try {
     const user = req.body;
+    console.log(user);
     const existingUser = await User.findOne({ uniqueId: user.uniqueId });
     if (existingUser) {
       return res
@@ -20,11 +20,7 @@ const registeredUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
-    const newUser = await User({
-      name: user.name,
-      uniqueId: user.uniqueId,
-      hash_password: user.password,
-    });
+    const newUser = await User(user);
     await newUser.save();
 
     const token = JWT.sign({ userId: newUser._id }, process.env.JWT_SEC_USER);
@@ -116,7 +112,21 @@ const loginUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { name, email, password, deviceToken, planId } = req.body;
+    const {
+      name,
+      CNIC,
+      fatherName,
+      address,
+      nationality,
+      country,
+      area,
+      DOB,
+      email,
+      uniqueId,
+      planId,
+      deviceToken,
+      password,
+    } = req.body;
     const user = await User.findById(userId);
 
     if (password) {
@@ -128,6 +138,14 @@ const updateUser = async (req, res) => {
     }
 
     user.name = name || user.name;
+    user.CNIC = CNIC || user.CNIC;
+    user.fatherName = fatherName || user.fatherName;
+    user.address = address || user.address;
+    user.nationality = nationality || user.nationality;
+    user.country = country || user.country;
+    user.area = area || user.area;
+    user.DOB = DOB || user.DOB;
+    user.uniqueId = uniqueId || user.uniqueId;
     user.planId = planId || user.planId;
     user.email = email || user.email;
     user.deviceToken = deviceToken || user.deviceToken;
@@ -149,39 +167,39 @@ const updateUser = async (req, res) => {
   }
 };
 
-// const addPlan = async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const { plotId, planId, planStartedDate, planEndedDate } = req.body;
-//     const user = await User.findById(userId);
-//     console.log(plotId);
-//     user.plotId = plotId || user.plotId;
-//     user.planId = planId || user.planId;
-//     user.planStartedDate = planStartedDate || user.planStartedDate;
-//     user.planEndedDate = planEndedDate || user.planEndedDate;
+const addPlan = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { plotId, planId, planStartedDate, planEndedDate } = req.body;
+    const user = await User.findById(userId);
+    console.log(plotId);
+    user.plotId = plotId || user.plotId;
+    user.planId = planId || user.planId;
+    user.planStartedDate = planStartedDate || user.planStartedDate;
+    user.planEndedDate = planEndedDate || user.planEndedDate;
 
-//     const plan = await Plan.findById(planId);
+    const plan = await Plan.findById(planId);
 
-//     const plot = await Plot.findById(plotId);
-//     await amount.save();
-//     user.amount = amount._id;
-//     await user.save();
+    const plot = await Plot.findById(plotId);
+    await amount.save();
+    user.amount = amount._id;
+    await user.save();
 
-//     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
+    const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
-//     res.status(200).send({
-//       success: true,
-//       message: "User Update successfully",
-//       Token: token,
-//       data: user,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(500)
-//       .send({ success: false, message: "Internal server error" });
-//   }
-// };
+    res.status(200).send({
+      success: true,
+      message: "User Update successfully",
+      Token: token,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error" });
+  }
+};
 
 const allUser = async (req, res) => {
   try {

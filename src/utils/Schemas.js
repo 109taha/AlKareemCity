@@ -7,6 +7,14 @@ const myJoiObjectId = JoiObjectId(joi);
 const userSchema = joi
   .object({
     name: joi.string().required(),
+    CNIC: joi.string().required(),
+    fatherName: joi.string(),
+    address: joi.string(),
+    nationality: joi.string(),
+    country: joi.string(),
+    area: joi.string(),
+    DOB: joi.string(),
+    email: joi.string().required(),
     uniqueId: joi.string().required(),
     password: joi.string().min(5).max(20).required(),
   })
@@ -115,6 +123,11 @@ const planJoi = (req, res, next) => {
   }
 };
 
+const authJoi = joi.object({
+  email: joi.string().required(),
+  password: joi.string().required(),
+});
+
 module.exports = {
   UserJoi,
   AdminJoi,
@@ -122,4 +135,5 @@ module.exports = {
   planJoi,
   plotJoi,
   plotJoiArray,
+  authJoi,
 };
