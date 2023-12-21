@@ -2,6 +2,7 @@ const {
   registeredUser,
   loginUser,
   updateUser,
+  addPlan,
   profilePic,
   allUser,
   deleteUser,
@@ -24,6 +25,7 @@ const router = express.Router();
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
 router.post("/otp/:userId", otpVerify);
+router.post("/addPlan/:userId", addPlan);
 router.put("/update/:userId", updateUser);
 router.post(
   "/profilePic",

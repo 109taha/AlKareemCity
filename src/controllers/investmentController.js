@@ -508,14 +508,7 @@ const getAllPlan = async (req, res) => {
 
     const totalPages = Math.ceil(total / limit);
 
-    const allData = await PlanModel.find()
-      .populate({
-        path: "blockId",
-        select: "blockName",
-      })
-      .skip(skip)
-      .limit(limit)
-      .sort(sortBY);
+    const allData = await PlanModel.find().skip(skip).limit(limit).sort(sortBY);
 
     if (!allData > 0) {
       return res

@@ -5,6 +5,7 @@ const fs = require("fs");
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authJoi } = require("../utils/Schemas.js");
+const Plan = require("../models/PlansModel.js");
 
 const registeredUser = async (req, res) => {
   try {
@@ -121,7 +122,6 @@ const updateUser = async (req, res) => {
       DOB,
       email,
       uniqueId,
-      planId,
       deviceToken,
       password,
     } = req.body;
@@ -144,9 +144,9 @@ const updateUser = async (req, res) => {
     user.area = area || user.area;
     user.DOB = DOB || user.DOB;
     user.uniqueId = uniqueId || user.uniqueId;
-    user.planId = planId || user.planId;
     user.email = email || user.email;
     user.deviceToken = deviceToken || user.deviceToken;
+    const allPlanId = user.planId;
 
     await user.save();
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
@@ -168,20 +168,41 @@ const updateUser = async (req, res) => {
 const addPlan = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { plotId, planId, planStartedDate, planEndedDate } = req.body;
-    const user = await User.findById(userId);
-    console.log(plotId);
-    user.plotId = plotId || user.plotId;
-    user.planId = planId || user.planId;
-    user.planStartedDate = planStartedDate || user.planStartedDate;
-    user.planEndedDate = planEndedDate || user.planEndedDate;
+    const planId = req.body.planId;
 
     const plan = await Plan.findById(planId);
+    if (!plan) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No plan found on that Id" });
+    }
 
-    const plot = await Plot.findById(plotId);
-    await amount.save();
-    user.amount = amount._id;
-    await user.save();
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No user found on that Id" });
+    }
+
+    const newPlan = user.planId;
+
+    newPlan.push(planId);
+
+    // const { plotId, planId, planStartedDate, planEndedDate } = req.body;
+    // const user = await User.findById(userId);
+    // console.log(plotId);
+    // user.plotId = plotId || user.plotId;
+    // user.planId = planId || user.planId;
+    // user.planStartedDate = planStartedDate || user.planStartedDate;
+    // user.planEndedDate = planEndedDate || user.planEndedDate;
+
+    // const plan = await Plan.findById(planId);
+
+    // const plot = await Plot.findById(plotId);
+    // await amount.save();
+    // user.amount = amount._id;
+    // await user.save();
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
@@ -510,6 +531,7 @@ module.exports = {
   otpVerify,
   loginUser,
   updateUser,
+  addPlan,
   allUser,
   deleteUser,
   oneUser,
