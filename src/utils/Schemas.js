@@ -16,7 +16,7 @@ const userSchema = joi
     DOB: joi.string(),
     email: joi.string().required(),
     uniqueId: joi.string().required(),
-    password: joi.string().min(5).max(20).required(),
+    hash_password: joi.string().min(5).max(20).required(),
   })
   .unknown(true);
 
@@ -104,15 +104,19 @@ const plotJoi = (req, res, next) => {
 };
 
 // PLANS
-const PlansSchema = joi.object({
-  sqYard: joi.number().required(),
-  blockId: myJoiObjectId().required(),
-  bookingAmount: joi.number().required(),
-  instalmentAmount: joi.number().required(),
-  investmentMonth: joi.number().required(),
-  extraPaymentTerm: joi.number().required(),
-  possessionAmount: joi.number().required(),
-});
+const PlansSchema = joi
+  .object({
+    bookingAmount: joi.number().required(),
+    investmentMonth: joi.number().required(),
+    planStartedDate: joi.number().required(),
+    planEndedDate: joi.number().required(),
+    investmentMonth: joi.number().required(),
+    extraPaymentTerm: joi.number().required(),
+    extraPaymentAmount: joi.number().required(),
+    possessionAmount: joi.number().required(),
+    plotId: myJoiObjectId().required(),
+  })
+  .unknown(true);
 
 const planJoi = (req, res, next) => {
   const { error } = PlansSchema.validate(req.body, { abortEarly: false });

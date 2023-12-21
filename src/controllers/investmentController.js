@@ -3,6 +3,7 @@ const PlotModel = require("../models/PlotModel.js");
 const PlanModel = require("../models/PlansModel.js");
 const Panelty = require("../models/paneltyModel.js");
 const User = require("../models/UsersModels.js");
+const Plot = require("../models/PlotModel.js");
 
 // Block
 const createingBlock = async (req, res) => {
@@ -426,16 +427,21 @@ const allPlotsByPlotNumberWithBlock = async (req, res) => {
 const createingPlan = async (req, res) => {
   try {
     const planData = req.body;
+    const plotId = planData.plotId;
+    const plot = await Plot.findById(plotId);
+    if (!plot) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No plot Found on that Id " });
+    }
+    const newPlanData = {
+      ...planData,
+      plotNumber: plot.plotNumber,
+      totalAmount: plot.price,
+      instalmentAmount: plot.price - planData.bookingAmount,
+    };
 
-    const newPlan = new PlanModel({
-      sqYard: planData.sqYard,
-      blockId: planData.blockId,
-      bookingAmount: planData.bookingAmount,
-      instalmentAmount: planData.instalmentAmount,
-      investmentMonth: planData.investmentMonth,
-      extraPaymentTerm: planData.extraPaymentTerm,
-      possessionAmount: planData.possessionAmount,
-    });
+    const newPlan = new PlanModel(newPlanData);
 
     await newPlan.save();
 

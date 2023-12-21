@@ -1,3 +1,4 @@
+const { alternatives } = require("joi");
 const Form = require("../models/form");
 const FormCategory = require("../models/formCategpries");
 const cloudinary = require("cloudinary");
@@ -38,9 +39,8 @@ const createForm = async (req, res) => {
         const { path } = file;
         try {
           const uploader = await cloudinary.uploader.upload(path, {
-            folder: "blogging",
+            folder: "alKarem",
           });
-          console.log(uploader);
           fileArray.push({ url: uploader.secure_url });
           fs.unlinkSync(path);
         } catch (err) {
@@ -52,7 +52,9 @@ const createForm = async (req, res) => {
         }
       }
     }
+    console.log(fileArray);
     const { name, category } = req.body;
+    console.log(category);
     if (!name || !category) {
       return res.status(404).send({
         success: false,
@@ -64,6 +66,8 @@ const createForm = async (req, res) => {
       category,
       file: fileArray[0].url,
     });
+    console.log(newForm);
+
     await newForm.save();
     res.status(200).send({
       success: true,

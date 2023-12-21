@@ -9,7 +9,6 @@ const { authJoi } = require("../utils/Schemas.js");
 const registeredUser = async (req, res) => {
   try {
     const user = req.body;
-    console.log(user);
     const existingUser = await User.findOne({ uniqueId: user.uniqueId });
     if (existingUser) {
       return res
@@ -17,12 +16,10 @@ const registeredUser = async (req, res) => {
         .send({ success: false, message: "User Already Registerd" });
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-    user.password = hashedPassword;
-
+    const hashedPassword = await bcrypt.hash(user.hash_password, salt);
+    user.hash_password = hashedPassword;
     const newUser = await User(user);
     await newUser.save();
-
     const token = JWT.sign({ userId: newUser._id }, process.env.JWT_SEC_USER);
 
     res.status(200).send({
@@ -81,6 +78,7 @@ const loginUser = async (req, res) => {
         .status(400)
         .send({ success: false, message: "No user found on that email" });
     }
+    console.log(user);
     const validPassword = await bcrypt.compare(password, user.hash_password);
     if (!validPassword) {
       return res.status(400).send({

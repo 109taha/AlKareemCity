@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PlansSchema = new mongoose.Schema(
   {
-    pLanId: {
+    plotNumber: {
       type: String,
     },
     totalAmount: {
@@ -33,13 +33,13 @@ const PlansSchema = new mongoose.Schema(
     planEndedDate: {
       type: Date,
     },
-    totalPaidAmount: {
-      type: Number,
-      default: 0,
-    },
-    totalRemainingAmount: {
-      type: Number,
-    },
+    // totalPaidAmount: {
+    //   type: Number,
+    //   default: 0,
+    // },
+    // totalRemainingAmount: {
+    //   type: Number,
+    // },
     plotId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plot",

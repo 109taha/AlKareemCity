@@ -12,11 +12,13 @@ const storage = multer.diskStorage({
 });
 
 const imageFilter = (req, file, cb) => {
+  console.log(file.mimetype);
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||
     file.mimetype === "image/webp" ||
     file.mimetype === "image/jpeg" ||
+    file.mimetype === "application/octet-stream" ||
     file.mimetype === "image/avif" ||
     file.mimetype === "image/jfif" ||
     file.mimetype === "application/pdf"
