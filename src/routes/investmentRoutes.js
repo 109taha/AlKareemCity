@@ -33,10 +33,7 @@ const {
   allPlotsByPlotNumberWithBlock,
   getUserPlot,
 } = require("../controllers/investmentController.js");
-// const {
-//   allAmount,
-//   paymentAmount,
-// } = require("../controllers/flowController.js");
+const { allAmount } = require("../controllers/flowController.js");
 
 // block
 router.post("/createingBlock", blockJoi, createingBlock);
@@ -75,15 +72,7 @@ router.get("/onePanelty/:paneltyId", onePanelty);
 router.get("/allPanelty", allPanelty);
 
 // //flow
-// router.get("/allAmount/:userId", allAmount);
+router.get("/allAmount/:userId", allAmount);
 // router.post("/paymentAmount/:userId", paymentAmount);
 
 module.exports = router;
-
-// array = [1, 2, 3, 4];
-// let newArray = [];
-// for (let i = 0; i < array.length; i++) {
-//   const element = array[i];
-//   newArray.push(element * 2);
-// }
-// console.log(newArray);

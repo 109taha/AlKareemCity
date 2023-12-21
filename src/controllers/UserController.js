@@ -178,7 +178,6 @@ const addPlan = async (req, res) => {
     }
 
     const user = await User.findById(userId);
-    console.log(user);
     if (!user) {
       return res
         .status(404)
@@ -189,6 +188,7 @@ const addPlan = async (req, res) => {
 
     newPlan.push(planId);
 
+    await user.save();
     // const { plotId, planId, planStartedDate, planEndedDate } = req.body;
     // const user = await User.findById(userId);
     // console.log(plotId);

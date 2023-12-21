@@ -48,6 +48,30 @@ const PlansSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Panelty",
     },
+    payments: [
+      {
+        installmentNumber: {
+          type: Number,
+          required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+        dueDate: {
+          type: Date,
+          required: true,
+        },
+        status: {
+          type: String,
+          enum: ["pending", "paid"],
+          default: "pending",
+        },
+        paymentDate: {
+          type: Date,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

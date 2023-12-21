@@ -1,3 +1,24 @@
+const User = require("../models/UsersModels");
+
+const allAmount = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId)
+      .populate("planId")
+      .select("plantId");
+    const planDetail = user.planId;
+    console.log(planDetail);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error" });
+  }
+};
+
+module.exports = { allAmount };
+
 // const User = require("../models/UsersModels.js");
 // const Amount = require("../models/AmountModel.js");
 // const PaymentHistory = require("../models/AmountRecipt.js");
