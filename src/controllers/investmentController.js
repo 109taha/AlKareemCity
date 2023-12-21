@@ -424,21 +424,65 @@ const allPlotsByPlotNumberWithBlock = async (req, res) => {
 };
 
 // Plan
+// const createingPlan = async (req, res) => {
+//   try {
+//     const planData = req.body;
+//     const plotId = planData.plotId;
+//     const plot = await Plot.findById(plotId);
+//     if (!plot) {
+//       return res
+//         .status(404)
+//         .send({ success: false, message: "No plot Found on that Id " });
+//     }
+//     const newPlanData = {
+//       ...planData,
+//       plotNumber: plot.plotNumber,
+//       totalAmount: plot.price,
+//       instalmentAmount: plot.price - planData.bookingAmount,
+//     };
+
+//     const newPlan = new PlanModel(newPlanData);
+
+//     await newPlan.save();
+
+//     res.status(200).send({ success: true, data: newPlan });
+//   } catch (error) {
+//     console.log(error);
+//     return res
+//       .status(500)
+//       .send({ success: false, message: "Internal server error!", error });
+//   }
+// };
+
 const createingPlan = async (req, res) => {
   try {
     const planData = req.body;
     const plotId = planData.plotId;
     const plot = await Plot.findById(plotId);
+
     if (!plot) {
       return res
         .status(404)
-        .send({ success: false, message: "No plot Found on that Id " });
+        .send({ success: false, message: "No plot found with that ID" });
     }
+
+    const payments = [];
+    for (let i = 1; i <= planData.investmentMonth; i++) {
+      payments.push({
+        installmentNumber: i,
+        amount:
+          i % planData.extraPaymentTerm == 0
+            ? planData.instalmentAmount + planData.extraPaymentAmount
+            : planData.instalmentAmount,
+        status: "pending",
+      });
+    }
+
     const newPlanData = {
       ...planData,
       plotNumber: plot.plotNumber,
       totalAmount: plot.price,
-      instalmentAmount: plot.price - planData.bookingAmount,
+      payments,
     };
 
     const newPlan = new PlanModel(newPlanData);
@@ -447,7 +491,7 @@ const createingPlan = async (req, res) => {
 
     res.status(200).send({ success: true, data: newPlan });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res
       .status(500)
       .send({ success: false, message: "Internal server error!", error });

@@ -27,12 +27,9 @@ const PlansSchema = new mongoose.Schema(
     possessionAmount: {
       type: Number,
     },
-    planStartedDate: {
-      type: Date,
-    },
-    planEndedDate: {
-      type: Date,
-    },
+    // totalMonthOfInstalment: {
+    //   type: Number,
+    // },
     // totalPaidAmount: {
     //   type: Number,
     //   default: 0,
@@ -58,10 +55,10 @@ const PlansSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
-        dueDate: {
-          type: Date,
-          required: true,
-        },
+        // dueDate: {
+        //   type: Date,
+        //   required: true,
+        // },
         status: {
           type: String,
           enum: ["pending", "paid"],

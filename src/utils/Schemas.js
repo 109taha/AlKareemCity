@@ -107,9 +107,7 @@ const plotJoi = (req, res, next) => {
 const PlansSchema = joi
   .object({
     bookingAmount: joi.number().required(),
-    investmentMonth: joi.number().required(),
-    planStartedDate: joi.number().required(),
-    planEndedDate: joi.number().required(),
+    instalmentAmount: joi.number().required(),
     investmentMonth: joi.number().required(),
     extraPaymentTerm: joi.number().required(),
     extraPaymentAmount: joi.number().required(),
