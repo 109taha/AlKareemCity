@@ -4,6 +4,7 @@ const PlanModel = require("../models/PlansModel.js");
 const Panelty = require("../models/paneltyModel.js");
 const User = require("../models/UsersModels.js");
 const Plot = require("../models/PlotModel.js");
+const Plan = require("../models/PlansModel.js");
 
 // Block
 const createingBlock = async (req, res) => {
@@ -466,18 +467,23 @@ const createingPlan = async (req, res) => {
         .send({ success: false, message: "No plot found with that ID" });
     }
 
+    const startDate = new Date();
     const payments = [];
+
     for (let i = 1; i <= planData.investmentMonth; i++) {
+      const dueDate = new Date(startDate);
+      dueDate.setMonth(dueDate.getMonth() + i);
+
       payments.push({
         installmentNumber: i,
         amount:
-          i % planData.extraPaymentTerm == 0
+          i % planData.extraPaymentTerm === 0
             ? planData.instalmentAmount + planData.extraPaymentAmount
             : planData.instalmentAmount,
         status: "pending",
+        dueDate,
       });
     }
-
     const newPlanData = {
       ...planData,
       plotNumber: plot.plotNumber,
@@ -574,15 +580,13 @@ const getAllPlan = async (req, res) => {
 const getOnePlan = async (req, res) => {
   try {
     const planId = req.params.planId;
-    const plan = await PlanModel.findById(planId).populate({
-      path: "blockId",
-      select: "blockName totalNumberOfPlot",
-    });
+    const plan = await PlanModel.findById(planId).populate("plotId");
     if (!plan) {
       return res
         .status(400)
         .send({ success: false, message: "No plan found on that Id" });
     }
+
     res.status(200).send({ success: true, data: plan });
   } catch (error) {
     console.log(error);
@@ -733,6 +737,33 @@ const allPanelty = async (req, res) => {
   }
 };
 
+//payment
+const payment = async (req, res) => {
+  try {
+    const planId = req.params.planId;
+    const plan = await Plan.findById(planId);
+    const payments = plan.payments;
+    // console.logss(payments);
+
+    const firstPendingPayment = payments.find(
+      (payment) => payment.status === "pending"
+    );
+    console.log(firstPendingPayment);
+    if (!firstPendingPayment) {
+      console.log("No pending payments found");
+    }
+    firstPendingPayment.status = "paid";
+    plan.save();
+
+    return res.status(200).send({ success: true, data: "somthing is comming" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error! " });
+  }
+};
+
 module.exports = {
   createingBlock,
   updateBlock,
@@ -759,4 +790,5 @@ module.exports = {
   userPanelty,
   onePanelty,
   allPanelty,
+  payment,
 };

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PlansSchema = new mongoose.Schema(
   {
-    plotNumber: {
+    3: {
       type: String,
     },
     totalAmount: {
@@ -55,10 +55,10 @@ const PlansSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
-        // dueDate: {
-        //   type: Date,
-        //   required: true,
-        // },
+        dueDate: {
+          type: Date,
+          required: true,
+        },
         status: {
           type: String,
           enum: ["pending", "paid"],
