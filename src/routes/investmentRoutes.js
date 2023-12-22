@@ -33,6 +33,7 @@ const {
   allPlotsByPlotNumberWithBlock,
   getUserPlot,
   payment,
+  userPayment,
 } = require("../controllers/investmentController.js");
 
 // block
@@ -73,5 +74,6 @@ router.get("/allPanelty", allPanelty);
 
 //payment
 router.post("/payment/:planId", payment);
+router.get("/userPayment/:userId", userPayment);
 
 module.exports = router;

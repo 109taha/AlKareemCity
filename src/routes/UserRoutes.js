@@ -14,6 +14,7 @@ const {
   deleteAdmin,
   oneAdmin,
   otpVerify,
+  removePlan,
 } = require("../controllers/UserController.js");
 const { verifyUser, verifyAdmin } = require("../middlewares/middlewares.js");
 const { UserJoi, AdminJoi } = require("../utils/Schemas.js");
@@ -26,6 +27,7 @@ router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
 router.post("/otp/:userId", otpVerify);
 router.post("/addPlan/:userId", addPlan);
+router.post("/removePlan/:userId", removePlan);
 router.put("/update/:userId", updateUser);
 router.post(
   "/profilePic",

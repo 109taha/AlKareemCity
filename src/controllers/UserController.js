@@ -170,12 +170,47 @@ const addPlan = async (req, res) => {
     const userId = req.params.userId;
     const planId = req.body.planId;
 
-    const plan = await Plan.findById(planId);
-    if (!plan) {
+    const user = await User.findById(userId);
+    if (!user) {
       return res
         .status(404)
-        .send({ success: false, message: "No plan found on that Id" });
+        .send({ success: false, message: "No user found on that Id" });
     }
+
+    for (let i = 0; i < planId.length; i++) {
+      const element = planId[i];
+      const plan = await Plan.findById(element);
+
+      if (!plan) {
+        return res
+          .status(404)
+          .send({ success: false, message: "No plan found on that Id" });
+      }
+      user.planId.push(element);
+    }
+
+    await user.save();
+
+    const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
+
+    res.status(200).send({
+      success: true,
+      message: "User Update successfully",
+      Token: token,
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error" });
+  }
+};
+
+const removePlan = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const planId = req.body.planId;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -184,31 +219,29 @@ const addPlan = async (req, res) => {
         .send({ success: false, message: "No user found on that Id" });
     }
 
-    const newPlan = user.planId;
+    for (let i = 0; i < planId.length; i++) {
+      const element = planId[i];
+      const plan = await Plan.findById(element);
 
-    newPlan.push(planId);
+      if (!plan) {
+        return res
+          .status(404)
+          .send({ success: false, message: "No plan found on that Id" });
+      }
+
+      const planIndex = user.planId.indexOf(element);
+      if (planIndex !== -1) {
+        user.planId.splice(planIndex, 1);
+      }
+    }
 
     await user.save();
-    // const { plotId, planId, planStartedDate, planEndedDate } = req.body;
-    // const user = await User.findById(userId);
-    // console.log(plotId);
-    // user.plotId = plotId || user.plotId;
-    // user.planId = planId || user.planId;
-    // user.planStartedDate = planStartedDate || user.planStartedDate;
-    // user.planEndedDate = planEndedDate || user.planEndedDate;
-
-    // const plan = await Plan.findById(planId);
-
-    // const plot = await Plot.findById(plotId);
-    // await amount.save();
-    // user.amount = amount._id;
-    // await user.save();
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
 
     res.status(200).send({
       success: true,
-      message: "User Update successfully",
+      message: "User updated successfully",
       Token: token,
       data: user,
     });
@@ -532,6 +565,7 @@ module.exports = {
   loginUser,
   updateUser,
   addPlan,
+  removePlan,
   allUser,
   deleteUser,
   oneUser,

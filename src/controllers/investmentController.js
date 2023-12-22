@@ -764,6 +764,24 @@ const payment = async (req, res) => {
   }
 };
 
+const userPayment = async (req, res) => {
+  const userId = req.params.userId;
+  const user = await User.findById(userId);
+  const planId = user.planId;
+  for (let i = 0; i < planId.length; i++) {
+    const element = planId[i];
+    const plan = await Plan.findById(element);
+    console.log(plan);
+  }
+  try {
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error " });
+  }
+};
+
 module.exports = {
   createingBlock,
   updateBlock,
@@ -791,4 +809,5 @@ module.exports = {
   onePanelty,
   allPanelty,
   payment,
+  userPayment,
 };
