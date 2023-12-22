@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PlansSchema = new mongoose.Schema(
   {
-    3: {
+    plotNumber: {
       type: String,
     },
     totalAmount: {

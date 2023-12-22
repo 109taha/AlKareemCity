@@ -765,20 +765,50 @@ const payment = async (req, res) => {
 };
 
 const userPayment = async (req, res) => {
-  const userId = req.params.userId;
-  const user = await User.findById(userId);
-  const planId = user.planId;
-  for (let i = 0; i < planId.length; i++) {
-    const element = planId[i];
-    const plan = await Plan.findById(element);
-    console.log(plan);
-  }
   try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    const planId = user.planId;
+
+    const plotData = [];
+
+    for (let i = 0; i < planId.length; i++) {
+      const element = planId[i];
+      const plan = await Plan.findById(element);
+
+      const id = plan._id;
+      const plotNumber = plan.plotNumber;
+      const payments = plan.payments;
+
+      const firstPendingPayment = payments.find(
+        (payment) => payment.status === "pending"
+      );
+
+      if (firstPendingPayment) {
+        plotData.push({
+          _id: id,
+          plotNumber: plotNumber,
+          firstPendingPayment: {
+            installmentNumber: firstPendingPayment.installmentNumber,
+            amount: firstPendingPayment.amount,
+            dueDate: firstPendingPayment.dueDate,
+          },
+        });
+      } else {
+        plotData.push({
+          plotNumber: plotNumber,
+          message: "No pending payments found",
+        });
+      }
+    }
+
+    console.log(plotData);
+    res.status(200).send({ success: true, data: plotData });
   } catch (error) {
     console.log(error);
     return res
       .status(500)
-      .send({ success: false, message: "Internal server error " });
+      .send({ success: false, message: "Internal server error" });
   }
 };
 
