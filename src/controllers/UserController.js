@@ -294,7 +294,7 @@ const allUser = async (req, res) => {
 const oneUser = async (req, res) => {
   try {
     const userId = req.params.Id;
-    const users = await User.findById(userId).populate("planId");
+    const users = await User.findById(userId);
     if (!users) {
       return res
         .status(400)
