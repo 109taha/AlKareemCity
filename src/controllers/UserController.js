@@ -297,7 +297,10 @@ const allUser = async (req, res) => {
 const oneUser = async (req, res) => {
   try {
     const userId = req.params.Id;
-    const users = await User.findById(userId);
+    const users = await User.findById(userId).populate({
+      path: "planId",
+      populate: { path: "plotId", populate: { path: "BlockNumber" } },
+    });
     if (!users) {
       return res
         .status(400)
