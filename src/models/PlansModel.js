@@ -19,7 +19,6 @@ const PlansSchema = new mongoose.Schema(
     },
     extraPaymentTerm: {
       type: Number,
-      enum: [6, 12, 18, 36],
     },
     extraPaymentAmount: {
       type: Number,
