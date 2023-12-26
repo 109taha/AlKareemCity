@@ -532,7 +532,23 @@ const updatePlan = async (req, res) => {
     plan.investmentMonth = investmentMonth || plan.investmentMonth;
     plan.extraPaymentTerm = extraPaymentTerm || plan.extraPaymentTerm;
     plan.possessionAmount = possessionAmount || plan.possessionAmount;
+    console.log(plotId);
+    if (plotId) {
+      console.log(plan);
+      const plot = await Plot.findById(plotId);
 
+      const newPlanData = await PlanModel.findByIdAndUpdate(
+        planId,
+        {
+          plotNumber: plot.plotNumber,
+          totalAmount: plot.price,
+        },
+        { new: true }
+      );
+      await newPlanData.save();
+    }
+
+    // res.status(200).send({ success: true, data: newPlan });
     await plan.save();
 
     res.status(200).send({ success: true, data: plan });
