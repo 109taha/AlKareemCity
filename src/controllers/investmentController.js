@@ -508,13 +508,13 @@ const createingPlan = async (req, res) => {
 const updatePlan = async (req, res) => {
   try {
     const {
-      sqYard,
-      blockId,
       bookingAmount,
       instalmentAmount,
       investmentMonth,
       extraPaymentTerm,
+      extraPaymentAmount,
       possessionAmount,
+      plotId,
     } = req.body;
     const planId = req.params.planId;
     const plan = await PlanModel.findById(planId);
@@ -525,8 +525,8 @@ const updatePlan = async (req, res) => {
         .send({ success: true, message: "No plan found on that Id" });
     }
 
-    plan.sqYard = sqYard || plan.sqYard;
-    plan.blockId = blockId || plan.blockId;
+    plan.extraPaymentAmount = extraPaymentAmount || plan.extraPaymentAmount;
+    plan.plotId = plotId || plan.plotId;
     plan.bookingAmount = bookingAmount || plan.bookingAmount;
     plan.instalmentAmount = instalmentAmount || plan.instalmentAmount;
     plan.investmentMonth = investmentMonth || plan.investmentMonth;
