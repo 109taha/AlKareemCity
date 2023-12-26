@@ -14,7 +14,7 @@ const AdminSchema = new mongoose.Schema(
     hash_password: {
       type: String,
       require: true,
-    },
+    }, 
   },
   { timestamps: true }
 );

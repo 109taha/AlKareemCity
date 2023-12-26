@@ -170,6 +170,7 @@ const createingPlot = async (req, res) => {
       BlockNumber: plotData.BlockNumber,
       type: plotData.type,
       sqYard: plotData.sqYard,
+      feature: plotData.feature,
       details: plotData.details,
       price: plotData.price,
     });
