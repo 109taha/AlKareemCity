@@ -3,6 +3,7 @@ const Form = require("../models/form");
 const FormCategory = require("../models/formCategpries");
 const cloudinary = require("cloudinary");
 const fs = require("fs");
+const Gallery = require("../models/gallery");
 
 const createCategory = async (req, res) => {
   try {
@@ -154,7 +155,68 @@ const getOneForm = async (req, res) => {
 };
 
 //gallery
-const create = async (req, res) => {};
+const createGallery = async (req, res) => {
+  const files = req.files;
+  console.log(files);
+  const attachArtwork = [];
+  try {
+    if (!files && !files.length > 0) {
+      return res.status(400).send({
+        success: false,
+        message: "You have to upload atlest one image",
+      });
+    }
+    for (const file of files) {
+      const { path } = file;
+      try {
+        const uploader = await cloudinary.uploader.upload(path, {
+          folder: "blogging",
+        });
+        attachArtwork.push({ url: uploader.secure_url });
+        fs.unlinkSync(path);
+      } catch (err) {
+        if (attachArtwork.length > 0) {
+          const imgs = attachArtwork.map((obj) => obj.public_id);
+          cloudinary.api.delete_resources(imgs);
+        }
+        console.log(err);
+      }
+    }
+
+    const title = req.body.title;
+
+    const pics = [];
+    for (let i = 0; i < attachArtwork.length; i++) {
+      const element = attachArtwork[i].url;
+      pics.push(element);
+    }
+
+    const newGallery = await Gallery({
+      title,
+      pics,
+    });
+    await newGallery.save();
+    res.status(200).send({ success: true, data: newGallery });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error", error });
+  }
+};
+
+const getAllGallery = async (req, res) => {
+  try {
+    const allGallery = await Gallery.find();
+    res.status(200).send({ success: true, data: allGallery });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error", error });
+  }
+};
+
 module.exports = {
   createCategory,
   createForm,
@@ -162,4 +224,6 @@ module.exports = {
   getForm,
   getOneFormCategory,
   getOneForm,
+  createGallery,
+  getAllGallery,
 };

@@ -6,10 +6,12 @@ const GallerySchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    pics: {
-      type: String,
-      require: true,
-    },
+    pics: [
+      {
+        type: String,
+        require: true,
+      },
+    ],
   },
   { timestamps: true }
 );
