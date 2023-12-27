@@ -7,6 +7,11 @@ const {
   getFormCategory,
   createGallery,
   getAllGallery,
+  createDoc,
+  getAllDoc,
+  getAllUserDoc,
+  getOneDoc,
+  updateDoc,
 } = require("../controllers/form");
 
 const upload = require("../helper/multer.js");
@@ -23,5 +28,12 @@ router.get("/getOneFormCategory/:formId", getOneFormCategory);
 //gallery
 router.post("/createGallery", upload.array("file", 5), createGallery);
 router.get("/getAllGallery", getAllGallery);
+
+//doc
+router.post("/createDoc", upload.array("file", 5), createDoc);
+router.post("/updateDoc/:docId", upload.array("file", 5), updateDoc);
+router.get("/getAllDoc", getAllDoc);
+router.get("/getAllUserDoc/:plotId", getAllUserDoc);
+router.get("/getOneDoc/:docId", getOneDoc);
 
 module.exports = router;
