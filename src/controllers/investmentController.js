@@ -636,18 +636,20 @@ const deletePlan = async (req, res) => {
 const createPanelty = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { amount, reason, date } = req.body;
-    if (!amount || !reason || !date) {
+    const { amount, reason } = req.body;
+    if (!amount || !reason) {
       return res.status(404).send({
         success: false,
         message: "You have to provide amount, date and reason to add panelty",
       });
     }
 
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
     const newPanelty = new Panelty({
       amount,
       reason,
-      date,
+      date: today,
       userId,
     });
 
@@ -667,6 +669,26 @@ const createPanelty = async (req, res) => {
     return res
       .status(500)
       .send({ success: false, message: "Internal server error", error });
+  }
+};
+
+const payPanelty = async (req, res) => {
+  try {
+    const paneltyId = req.params.paneltyId;
+    const panelty = await Panelty.findById(paneltyId);
+    if (!panelty) {
+      return res
+        .status(404)
+        .send({ success: false, message: "No panelty found onn that id" });
+    }
+    panelty.paid = true;
+    await panelty.save();
+    res.status(200).send({ success: true, message: "Panelty Paid" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error ", error });
   }
 };
 
@@ -719,7 +741,8 @@ const onePanelty = async (req, res) => {
   try {
     const paneltyId = req.params.paneltyId;
     const panelty = await Panelty.findById(paneltyId);
-    if (panelty.length <= 0) {
+    console.log(panelty);
+    if (!panelty.length <= 0 || panelty == null) {
       return res
         .status(404)
         .send({ success: false, message: "No panelty found on that Id" });
@@ -851,6 +874,7 @@ module.exports = {
   getOnePlan,
   deletePlan,
   createPanelty,
+  payPanelty,
   updatePanelty,
   userPanelty,
   onePanelty,

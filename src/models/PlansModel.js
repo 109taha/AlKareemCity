@@ -26,16 +26,6 @@ const PlansSchema = new mongoose.Schema(
     possessionAmount: {
       type: Number,
     },
-    // totalMonthOfInstalment: {
-    //   type: Number,
-    // },
-    // totalPaidAmount: {
-    //   type: Number,
-    //   default: 0,
-    // },
-    // totalRemainingAmount: {
-    //   type: Number,
-    // },
     plotId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plot",

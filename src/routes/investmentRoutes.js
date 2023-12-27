@@ -34,6 +34,7 @@ const {
   getUserPlot,
   payment,
   userPayment,
+  payPanelty,
 } = require("../controllers/investmentController.js");
 
 // block
@@ -67,6 +68,7 @@ router.delete("/deletePlan/:planId", deletePlan);
 
 //panelty
 router.post("/createPanelty/:userId", createPanelty);
+router.post("/payPanelty/:paneltyId", payPanelty);
 router.put("/updatePanelty/:paneltyId", updatePanelty);
 router.get("/userPanelty/:userId", userPanelty);
 router.get("/onePanelty/:paneltyId", onePanelty);
