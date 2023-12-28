@@ -778,6 +778,24 @@ const allPanelty = async (req, res) => {
   }
 };
 
+const deletPanelty = async (req, res) => {
+  try {
+    const id = req.params.paneltyId;
+    const panelty = await Panelty.findByIdAndDelete(id);
+    if (!panelty) {
+      return res
+        .status(400)
+        .send({ success: false, message: "no panelty found" });
+    }
+    res.status(200).send({ success: true, message: "Deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error" });
+  }
+};
+
 //payment
 const payment = async (req, res) => {
   try {
@@ -880,6 +898,7 @@ module.exports = {
   userPanelty,
   onePanelty,
   allPanelty,
+  deletPanelty,
   payment,
   userPayment,
 };
