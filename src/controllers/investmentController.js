@@ -695,7 +695,8 @@ const payPanelty = async (req, res) => {
 const updatePanelty = async (req, res) => {
   try {
     const paneltyId = req.params.paneltyId;
-    const panelty = await Panelty(paneltyId);
+    const panelty = await Panelty.findById(paneltyId);
+    console.log(panelty);
     const { userId, amount, date, reason } = req.body;
 
     panelty.userId = userId || panelty.userId;

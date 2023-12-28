@@ -320,6 +320,43 @@ const oneUser = async (req, res) => {
   }
 };
 
+const userPlot = async (req, res) => {
+  try {
+    const users = await User.find().populate({
+      path: "planId",
+      populate: { path: "plotId", populate: { path: "BlockNumber" } },
+    });
+
+    const userData = users.map((user) => {
+      const plots = user.planId.map((plan) => {
+        const plotNumber = plan.plotId ? plan.plotId : null;
+        const blockNumber =
+          plan.plotId && plan.plotId.BlockNumber
+            ? plan.plotId.BlockNumber.blockNumber
+            : null;
+
+        return {
+          plotNumber,
+          blockNumber,
+        };
+      });
+
+      return {
+        username: user.name,
+        uniqueId: user.uniqueId,
+        plots,
+      };
+    });
+
+    return res.status(200).send({ success: true, data: userData });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error!", error });
+  }
+};
+
 const profilePic = async (req, res) => {
   const files = req.files;
   const attachArtwork = [];
@@ -575,6 +612,7 @@ module.exports = {
   allUser,
   deleteUser,
   oneUser,
+  userPlot,
   registeredAdmin,
   loginAdmin,
   updateAdmin,

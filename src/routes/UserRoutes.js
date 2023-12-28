@@ -15,6 +15,7 @@ const {
   oneAdmin,
   otpVerify,
   removePlan,
+  userPlot,
 } = require("../controllers/UserController.js");
 const { verifyUser, verifyAdmin } = require("../middlewares/middlewares.js");
 const { UserJoi, AdminJoi } = require("../utils/Schemas.js");
@@ -37,6 +38,7 @@ router.post(
 );
 router.get("/all", allUser);
 router.get("/one/:Id", oneUser);
+router.get("/userPlot", userPlot);
 router.delete("/delete/:Id", deleteUser);
 
 //Admin
