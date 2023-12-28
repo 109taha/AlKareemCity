@@ -37,3 +37,7 @@ app.use("/", investment);
 const form = require("./routes/form.js");
 
 app.use("/", form);
+
+const email = require("./routes/emailRoutes.js");
+
+app.use("/", email);
