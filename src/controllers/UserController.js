@@ -183,7 +183,9 @@ const addPlan = async (req, res) => {
     for (let i = 0; i < planId.length; i++) {
       const element = planId[i];
       const plan = await Plan.findById(element);
-
+      console.log(plan);
+      plan.assigned = true;
+      await plan.save();
       if (!plan) {
         return res
           .status(404)
@@ -225,7 +227,8 @@ const removePlan = async (req, res) => {
     for (let i = 0; i < planId.length; i++) {
       const element = planId[i];
       const plan = await Plan.findById(element);
-
+      plan.assigned = false;
+      await plan.save();
       if (!plan) {
         return res
           .status(404)

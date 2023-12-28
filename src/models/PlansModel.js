@@ -34,6 +34,11 @@ const PlansSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Panelty",
     },
+    assigned: {
+      type: Boolean,
+      requi: true,
+      default: false,
+    },
     payments: [
       {
         installmentNumber: {
