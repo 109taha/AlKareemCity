@@ -180,6 +180,14 @@ const addPlan = async (req, res) => {
         .send({ success: false, message: "No user found on that Id" });
     }
 
+    const findAlreadyAssignPlan = await User.find({ planId });
+    if (findAlreadyAssignPlan) {
+      return res.status(400).send({
+        success: false,
+        message: "This plan is already assign to the user",
+      });
+    }
+
     for (let i = 0; i < planId.length; i++) {
       const element = planId[i];
       const plan = await Plan.findById(element);

@@ -130,6 +130,22 @@ const authJoi = joi.object({
   password: joi.string().required(),
 });
 
+const mailSchema = joi.object({
+  name: joi.string().required(),
+  subject: joi.string().required(),
+  from: joi.string().email().required(),
+  data: joi.object().required(),
+});
+
+const mailJoi = (req, res, next) => {
+  const { error } = mailSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    return res.status(400).json({ error });
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   UserJoi,
   AdminJoi,
@@ -138,4 +154,5 @@ module.exports = {
   plotJoi,
   plotJoiArray,
   authJoi,
+  mailJoi,
 };
