@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 
 module.exports.sendMail = async (req, res, next) => {
   const data = req.body;
+  console.log(data);
   if (!data.subject && !data.from && !data.name)
     return res.status(400).send({
       success: false,
