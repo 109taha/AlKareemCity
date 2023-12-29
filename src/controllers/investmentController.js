@@ -636,20 +636,18 @@ const deletePlan = async (req, res) => {
 const createPanelty = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { amount, reason } = req.body;
-    if (!amount || !reason) {
+    const { amount, reason, date } = req.body;
+    if (!amount || !reason || date) {
       return res.status(404).send({
         success: false,
         message: "You have to provide amount, date and reason to add panelty",
       });
     }
 
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
     const newPanelty = new Panelty({
       amount,
       reason,
-      date: today,
+      date,
       userId,
     });
 
