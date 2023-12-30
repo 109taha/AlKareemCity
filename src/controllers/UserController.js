@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const { authJoi } = require("../utils/Schemas.js");
 const Plan = require("../models/PlansModel.js");
 const nodemailer = require("nodemailer");
+const sendResetEmail = require("../helper/resetpass.js");
 
 const registeredUser = async (req, res) => {
   try {
@@ -173,8 +174,12 @@ const forgotPass = async (req, res) => {
   try {
     const uniqueId = req.params.id;
     const user = await User.findOne({ uniqueId: uniqueId });
-    const otpToken = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-    res.status(200).send({ success: true, data: user, code: otpToken });
+    const email = user.email;
+    const token = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+    sendResetEmail(email, token);
+
+    res.status(200).send({ success: true, data: user, code: token });
   } catch (error) {
     console.log(error);
     return res
