@@ -597,7 +597,10 @@ const getAllPlan = async (req, res) => {
 const getOnePlan = async (req, res) => {
   try {
     const planId = req.params.planId;
-    const plan = await PlanModel.findById(planId).populate("plotId");
+    const plan = await PlanModel.findById(planId).populate({
+      path: "plotId",
+      populate: { path: "BlockNumber" },
+    });
     if (!plan) {
       return res
         .status(400)
