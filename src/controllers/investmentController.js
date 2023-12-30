@@ -637,6 +637,7 @@ const createPanelty = async (req, res) => {
   try {
     const userId = req.params.userId;
     const { amount, reason, date } = req.body;
+    console.log(req.body);
     if (!amount || !reason || date) {
       return res.status(404).send({
         success: false,
