@@ -6,6 +6,7 @@ const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { authJoi } = require("../utils/Schemas.js");
 const Plan = require("../models/PlansModel.js");
+const nodemailer = require("nodemailer");
 
 const registeredUser = async (req, res) => {
   try {
@@ -165,6 +166,20 @@ const updateUser = async (req, res) => {
     return res
       .status(500)
       .send({ success: false, message: "Internal server error" });
+  }
+};
+
+const forgotPass = async (req, res) => {
+  try {
+    const uniqueId = req.params.id;
+    const user = await User.findOne({ uniqueId: uniqueId });
+    const otpToken = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+    res.status(200).send({ success: true, data: user, code: otpToken });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server erro r" });
   }
 };
 
@@ -618,6 +633,7 @@ module.exports = {
   otpVerify,
   loginUser,
   updateUser,
+  forgotPass,
   addPlan,
   removePlan,
   allUser,

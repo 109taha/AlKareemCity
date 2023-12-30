@@ -16,6 +16,7 @@ const {
   otpVerify,
   removePlan,
   userPlot,
+  forgotPass,
 } = require("../controllers/UserController.js");
 const { verifyUser, verifyAdmin } = require("../middlewares/middlewares.js");
 const { UserJoi, AdminJoi } = require("../utils/Schemas.js");
@@ -27,6 +28,7 @@ const router = express.Router();
 router.post("/register", UserJoi, registeredUser);
 router.post("/login", loginUser);
 router.post("/otp/:userId", otpVerify);
+router.post("/forgotPass/:id", forgotPass);
 router.post("/addPlan/:userId", addPlan);
 router.post("/removePlan/:userId", removePlan);
 router.put("/update/:userId", updateUser);
