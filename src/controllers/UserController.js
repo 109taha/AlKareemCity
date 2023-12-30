@@ -173,13 +173,20 @@ const updateUser = async (req, res) => {
 const forgotPass = async (req, res) => {
   try {
     const uniqueId = req.params.id;
-    const user = await User.findOne({ uniqueId: uniqueId });
+    const user = await User.findOne({ uniqueId: uniqueId }).populate({
+      path: "planId",
+      populate: { path: "plotId", populate: { path: "BlockNumber" } },
+    });
     const email = user.email;
     const token = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
     sendResetEmail(email, token);
 
-    res.status(200).send({ success: true, data: user, code: token });
+    const tokenOf = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
+
+    res
+      .status(200)
+      .send({ success: true, data: user, code: token, token: tokenOf });
   } catch (error) {
     console.log(error);
     return res
