@@ -458,7 +458,8 @@ const deleteUser = async (req, res) => {
 const registeredAdmin = async (req, res) => {
   try {
     const admin = req.body;
-    const existingAdmin = await Admin.findOne({ email: admin.email });
+    const email = admin.email.toLowerCase();
+    const existingAdmin = await Admin.findOne({ email: email });
     if (existingAdmin) {
       return res
         .status(400)
@@ -470,7 +471,7 @@ const registeredAdmin = async (req, res) => {
 
     const newAdmin = await Admin({
       name: admin.name,
-      email: admin.email,
+      email: email,
       hash_password: admin.password,
     });
 
@@ -503,7 +504,7 @@ const loginAdmin = async (req, res) => {
         message: "You have to provide the password and email",
       });
     }
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ email: email.toLowerCase() });
     if (!admin) {
       return res
         .status(400)
