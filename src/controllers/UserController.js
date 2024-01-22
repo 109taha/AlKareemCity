@@ -208,7 +208,8 @@ const addPlan = async (req, res) => {
     }
 
     const findAlreadyAssignPlan = await User.find({ planId });
-    if (findAlreadyAssignPlan) {
+    console.log(findAlreadyAssignPlan);
+    if (!findAlreadyAssignPlan.lenght < 0) {
       return res.status(400).send({
         success: false,
         message: "This plan is already assign to the user",
