@@ -96,7 +96,7 @@ const otpVerify = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { uniqueId, password } = req.body;
+    const { uniqueId, password, deviceToken } = req.body;
     if (!uniqueId && !password) {
       return res.status(400).send({
         success: false,
@@ -112,6 +112,7 @@ const loginUser = async (req, res) => {
         .status(400)
         .send({ success: false, message: "No user found on that email" });
     }
+    user.deviceToken = deviceToken;
     console.log(user);
     const validPassword = await bcrypt.compare(password, user.hash_password);
     if (!validPassword) {
