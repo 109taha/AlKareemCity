@@ -114,7 +114,7 @@ const loginUser = async (req, res) => {
         .send({ success: false, message: "No user found on that email" });
     }
     user.deviceToken = deviceToken;
-    console.log(user);
+    await user.save();
     const validPassword = await bcrypt.compare(password, user.hash_password);
     if (!validPassword) {
       return res.status(400).send({
