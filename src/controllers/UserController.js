@@ -9,6 +9,34 @@ const Plan = require("../models/PlansModel.js");
 const nodemailer = require("nodemailer");
 const sendResetEmail = require("../helper/resetpass.js");
 
+const sendOtpEmails = async (email, otpToken) => {
+  console.log(123);
+  const transporter = nodemailer.createTransport({
+    host: process.env.HOST,
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.USER,
+      pass: process.env.PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"Al-Kareem City" ${process.env.USER}`,
+    to: email,
+    subject: "OTP Verification",
+    text: `Your One Time Verification Code Is: ${otpToken}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Email error:", error);
+    } else {
+      console.log("Email sent:", info.response);
+    }
+  });
+};
+
 const registeredUser = async (req, res) => {
   try {
     const user = req.body;
@@ -97,6 +125,9 @@ const loginUser = async (req, res) => {
         Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
       user.OTP = otpToken;
       await user.save();
+      const email = user.email;
+      sendOtpEmails(email, otpToken);
+      console.log(123);
     }
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
