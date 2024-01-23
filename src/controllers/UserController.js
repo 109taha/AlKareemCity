@@ -8,6 +8,7 @@ const { authJoi } = require("../utils/Schemas.js");
 const Plan = require("../models/PlansModel.js");
 const nodemailer = require("nodemailer");
 const sendResetEmail = require("../helper/resetpass.js");
+const sendNotification = require("../helper/notiffication.js");
 
 const sendOtpEmails = async (email, otpToken) => {
   console.log(123);
@@ -261,7 +262,11 @@ const addPlan = async (req, res) => {
       }
       user.planId.push(element);
     }
-
+    const title = "Alkareem Notification";
+    const body = `Assalam O Alikum ${user.name}, We want to share you that new plan has been added in your account`;
+    const deviceToken = user.deviceToken;
+    const ID = planId;
+    sendNotification(title, body, deviceToken, ID);
     await user.save();
 
     const token = JWT.sign({ userId: user._id }, process.env.JWT_SEC_USER);
