@@ -815,7 +815,9 @@ const payment = async (req, res) => {
     firstPendingPayment.status = "paid";
     plan.save();
 
-    return res.status(200).send({ success: true, data: "somthing is comming" });
+    return res
+      .status(200)
+      .send({ success: true, data: "Installment payed successfully !" });
   } catch (error) {
     console.log(error);
     return res
